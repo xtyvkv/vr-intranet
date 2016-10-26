@@ -1,0 +1,362 @@
+<!DOCTYPE html><html>
+	<head>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">  
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+       
+        <script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+		<script>
+$(function() {
+    $('input[type="checkbox"]').change(function() {
+        alert(this.checked);
+    });
+    
+    // For IE
+    $('input[type="checkbox"]').change(function() {
+        $(this).toggleClass('checked');
+    });</script>
+	</head>
+
+<body>
+	<div class="container" style="margin-top:20px;">
+    	<div class="alert alert-warning alert-dismissible tsheets" role="alert" id="cool">
+  			<button type="button" class="close xout" data-dismiss="alert" aria-label="Close">
+            	<span aria-hidden="true">&times;</span>
+            </button>
+  			<strong>Reminder!</strong> Timesheets are due by the end of the day. <a href="https://vitalresearch.tsheets.com/" class="goto" target="_blank">Go to T-Sheets <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> </a>
+		</div>
+		<div class="jumbotron">
+        	<div class="row" style="position:relative">
+            	<div class="col-xs-12 col-sm-6">
+					<img src="img/VR-logo.png" alt="Vital Research - Expect New Insights" style="width:100%;max-width:500px;">
+				</div>
+                <div class="col-sm-1"></div>
+                <div class="col-xs-12 col-sm-5" style="position:absolute;bottom:0px;display:inline-block;float:right;">
+                	<div class="row" style="margin-bottom:15px;">
+                    	<div class="col-xs-6 col-sm-6">
+                			<div class="coreValues vrGreen">We care about people.</div>
+                    		<div class="coreValues vrBlue">We are open and honest.</div>
+                		</div>
+                	<div class="col-xs-6 col-sm-6">
+                		<div class="coreValues vrRed">We give it our all.</div>
+                    		<div class="coreValues vrGray">We deliver only the best.</div>
+                		</div>
+                    </div>
+                    <div class="row">
+                    	<div class="col-xs-6 col-sm-6">
+                    		<div class="smallText">6380 Wilshire Blvd., Ste. 1700<br>Los Angeles, CA  90048<br>(323) 951-1670</div>
+                	</div>
+                	<div class="col-xs-6 col-sm-6">
+                    		<div class="smallText">Fax: (323) 653-0123<br>(888) 848-2511<br>Statewide: (888) 848-2555</div>
+                		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+    <div class="container"> <!-- Begin nav bar -->
+    	<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+    		<!-- Brand and toggle get grouped for better mobile display -->
+    			<div class="navbar-header">
+     				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        				<span class="sr-only">Toggle navigation</span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+      				</button>
+      				<a class="navbar-brand" href="#"><img src="img/orbit-white.png" alt="VR Orbit" class="vr-orbit"></a>
+    			</div>
+    		<!-- Collect the nav links, forms, and other content for toggling -->
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      				<ul class="nav navbar-nav">
+        				<li class="active"><a href="index.html">Home <span class="sr-only">(current)</span></a></li>
+        				<li><a href="#">Announcements</a></li>
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Human Resources <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>    
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Phone Procedures <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>       
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">IT <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>                                                                   
+      				</ul>
+      				<form class="navbar-form navbar-right">
+        				<div class="form-group">
+          					<input type="text" class="form-control search" placeholder="Search">
+        				</div>
+        				<button type="submit" class="btn btn-default searchSubmit">Submit</button>
+     				</form>
+    			</div><!-- /.navbar-collapse -->
+  			</div><!-- /.container-fluid -->
+		</nav>
+	</div> <!-- End nav bar container -->
+	<div class="container">
+    	<div class="row"> <!-- Begin container row -->
+        	<div class="col-sm-12 col-lg-4"> <!-- Begin left column -->
+            	    <div class="row">
+        				<div class="col-sm-12">
+                			<div class="panel panel-default">
+ 								<!-- Default panel contents -->
+  								<div class="panel-heading">In/Out Board <span class="glyphicon glyphicon-user ph-icon" aria-hidden="true"></span></div>
+                                <div class="panel-body h-flush">
+ 									<!-- Table -->
+  									<table class="table table-hover">
+                                		<thead>
+                                    		<tr>
+                                    			<th></th>
+                                        		<th></th>
+                                            	<th>Ext.</th>
+                                    		</tr>
+                                    	</thead>
+                                    	<tbody>
+    										<tr>
+                                    			<th scope="row">Adrienne</th>
+                                        		<td style="text-align:center;">
+                                                	<div>
+                                             			<input id="adr1" type="checkbox" name="options" class="switcher">
+  														<label for="adr1" class="in-label"> In </label>
+
+  														<input class="switcher" name="options" id="adr2" type="checkbox" checked>
+  														<label for="adr2" class="out-label"> Out </label>
+
+  														<input class="switcher" name="options" id="adr3" type="checkbox">
+  														<label for="adr3" class="home-label"> Home</label>
+
+          											</div>
+                                                </td>
+                                        		<td>104</td>
+                                    		</tr>
+                                    		<tr>
+                                    			<th scope="row">Andrea</th>
+                                            	<td style="text-align:center;">
+ 													<div>
+                                             			<input id="and1" type="checkbox">
+  														<label for="and1" class="in-label"> In </label>
+
+  														<input id="and2" type="checkbox" checked>
+  														<label for="and2" class="out-label"> Out </label>
+
+  														<input id="and3" type="checkbox">
+  														<label for="and3" class="home-label"> Home</label>
+
+          											</div>
+    	                                        </td>
+	                                        	<td>124</td>
+                                    		</tr>
+                                    		<tr>
+                                        		<th scope="row">Cathy</th>
+                                            	<td style="text-align:center;">
+ 													<div>
+                                             			<input id="cat1" type="checkbox">
+  														<label for="cat1" class="in-label"> In </label>
+
+  														<input id="cat2" type="checkbox" checked>
+  														<label for="cat2" class="out-label"> Out </label>
+
+  														<input id="cat3" type="checkbox">
+  														<label for="cat3" class="home-label"> Home</label>
+
+          											</div>
+                                            	</td>
+                                        		<td>120</td>
+                                    		</tr>
+                                		</tbody>
+									</table>
+                            	</div> <!-- End panel body -->
+							</div> <!-- End in/out panel -->
+            			</div>
+                     </div> <!-- End row -->
+                     <div class="row">
+        				<div class="col-sm-12">
+                        	<div class="panel panel-default">
+ 								<!-- Default panel contents -->
+  								<div class="panel-heading">Kitchen Schedule <span class="glyphicon glyphicon-apple ph-icon" aria-hidden="true"></span></div>
+                                <div class="panel-body">
+                                	<ul class="list-group">
+  										<li class="list-group-item list-group-item-current">Christy Hartner <span class="badge kitchen-date-current">8/29 - 9/02</span></li>
+  										<li class="list-group-item list-group-item-upcoming">Diana Dominguez <span class="badge kitchen-date">9/05 - 9/09</span></li>
+  										<li class="list-group-item list-group-item-upcoming">Courtney Malloy <span class="badge kitchen-date">9/12 - 9/16</span></li>
+  										<li class="list-group-item list-group-item-upcoming">Eliot Reyes <span class="badge kitchen-date">8/19 - 9/23</span></li>
+                                        <li class="list-group-item"><a href="#">View All...</a></li>
+									</ul>
+								</div>
+           	 				</div>
+                        </div>
+                     </div>
+            </div> <!-- End left column -->
+            <div class="col-sm-12 col-lg-8"> <!-- Begin right column -->
+            		<div class="row">
+                		<div class="col-sm-12">
+            				<div class="panel panel-default">
+ 								<!-- Default panel contents -->
+  								<div class="panel-heading">Calendar <span class="glyphicon glyphicon-calendar ph-icon" aria-hidden="true"></span></div>
+                                <div class="panel-body">
+                                <div class="row">
+                                <div class="col-sm-4">
+                                    	<ul class="list-group">
+  											<li class="list-group-item eventDay">Wednesday 10/05/2016</li> 
+                                            <li class="list-group-item">
+    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
+    												Andrea - CSI3 AM
+  											</li>
+                                            <li class="list-group-item">
+    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
+    											Norma - Home AM/Drs PM
+  											</li>
+										</ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    	<ul class="list-group notToday">
+                                        	<li class="list-group-item eventDay">Thursday 10/06/2016</li> 
+  											<li class="list-group-item">
+    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
+    												Jennifer - Dr AM
+  											</li>
+                                 
+										</ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    	<ul class="list-group notToday">
+                                        	<li class="list-group-item eventDay">Friday 10/07/2016</li> 
+  											<li class="list-group-item">
+    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
+    												Conference Room 11-1pm occupied
+  											</li>
+                                            <li class="list-group-item">
+    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
+    												Matt Out
+  											</li>
+										</ul>
+                                </div>
+                                </div>
+                                 
+                                </div>
+                            </div>
+           	 			</div>
+                		<div class="col-sm-12">
+                		  <div class="panel panel-default">
+                		    <!-- Default panel contents -->
+                		    <div class="panel-heading">Call Routing <span class="glyphicon glyphicon-earphone ph-icon" aria-hidden="true"></span></div>
+                		    <div class="panel-body">
+                		      <table class="table table-hover">
+                              
+							<thead>
+								<tr>
+                                    <th>Project Name</th>
+                                    <th></th>
+                                    <th>First Person</th>
+                                    <th></th>
+                                    <th>Second Person</th>
+                                </tr>
+						</thead>
+                            <tbody>
+                              	<tr>
+                                	<td>Project Name <a href="#" data-toggle="tooltip" data-placement="top" title="Project description."><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></a></td>
+                                    <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
+                                    <td>First Person</td>
+                                    <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
+                                    <td>Second Person</td>
+                                </tr>
+                                <tr>
+                                	<td>Project Name <a href="#" data-toggle="tooltip" data-placement="top" title="Project description."><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></a></td>
+                                    <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
+                                    <td>First Person</td>
+                                    <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
+                                    <td>Second Person</td>
+                                </tr>
+                             </tbody>
+                              </table>
+              		      </div>
+              		    </div>
+              		  </div>
+        			</div> <!-- End row -->
+					<div class="row">
+						<div class="col-sm-12">
+           				<div class="panel panel-default">
+ 								<!-- Default panel contents -->
+  								<div class="panel-heading">Announcements <span class="glyphicon glyphicon-flash ph-icon" aria-hidden="true"></span></div>
+                                <div class="panel-body">
+    									<div class="input-group">
+      										<input type="text" class="form-control" placeholder="Write an announcement..">
+     										<span class="input-group-btn">
+        										<button class="btn btn-default" type="button">Add</button>
+      										</span>
+   										</div><!-- /input-group -->
+                                        <p>
+                                        	<ul class="list-group">
+  												<li class="list-group-item">
+    												<span class="badge">OCT. 22</span>
+    												Cras justo odio
+  												</li>
+											</ul>
+										</p>
+                                </div> <!-- End panel body -->
+                            </div>
+						</div>
+					</div> <!-- End row -->
+        			<div class="row">
+        				<div class="col-sm-12">
+            				<div class="panel panel-default">
+ 								<!-- Default panel contents -->
+  								<div class="panel-heading">Other <span class="glyphicon glyphicon-tag ph-icon" aria-hidden="true"></span></div>
+                                <div class="panel-body">
+                                	<p>
+										<a href="submit.html" role="button" class="btn btn-default  btn-lg btn-block">IT Help</a>
+										<button type="button" class="btn btn-default  btn-lg btn-block">HR</button>
+										<button type="button" class="btn btn-default  btn-lg btn-block">Devices</button>
+                                	</p>
+                               </div>
+                            </div>
+            			</div>
+        			</div> <!-- End row -->
+            </div> <!-- End right column -->
+        </div> <!-- End containter row -->
+	</div> <!-- End container -->
+</body>
+</html>

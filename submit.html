@@ -1,0 +1,157 @@
+<!DOCTYPE html><html>
+	<head>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">  
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+       
+        <script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+	</head>
+
+<body>
+	<div class="container" style="margin-top:20px;">
+		<div class="jumbotron">
+			<img src="img/VR-logo.png" alt="Vital Research - Expect New Insights" style="width:100%;max-width:500px;"><span style="padding:15px;display:inline-block;width:35%;">6380 Wilshire Blvd., Ste. 1700<br>Los Angeles, CA  90048</span>
+		</div>
+	</div>
+    <div class="container"> <!-- Begin nav bar -->
+    	<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+    		<!-- Brand and toggle get grouped for better mobile display -->
+    			<div class="navbar-header">
+     				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        				<span class="sr-only">Toggle navigation</span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+      				</button>
+      				<a class="navbar-brand" href="#"><img src="img/orbit-white.png" alt="VR Orbit" class="vr-orbit"></a>
+    			</div>
+    		<!-- Collect the nav links, forms, and other content for toggling -->
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      				<ul class="nav navbar-nav">
+        				<li class="active"><a href="index.html">Home <span class="sr-only">(current)</span></a></li>
+        				<li><a href="#">Announcements</a></li>
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Human Resources <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>    
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Phone Procedures <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>       
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">IT <span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            					<li><a href="#">One</a></li>
+            					<li><a href="#">Two</a></li>
+            					<li><a href="#">Three</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">Separated link</a></li>
+            					<li role="separator" class="divider"></li>
+            					<li><a href="#">One more separated link</a></li>
+          					</ul>
+        				</li>                                                                   
+      				</ul>
+      				<form class="navbar-form navbar-right">
+        				<div class="form-group">
+          					<input type="text" class="form-control search" placeholder="Search">
+        				</div>
+        				<button type="submit" class="btn btn-default searchSubmit">Submit</button>
+     				</form>
+    			</div><!-- /.navbar-collapse -->
+  			</div><!-- /.container-fluid -->
+		</nav>
+	</div> <!-- End nav bar container -->
+	<div class="container">
+    	<div class="row"> <!-- Begin container row -->
+        	<div class="col-sm-12">
+            	<div class="panel panel-default">
+            		<div class="panel-heading">Submit A Ticket</div>
+                	<div class="panel-body">
+                    	<form class="form-horizontal">
+  							<div class="form-group">
+    							<label for="inputName" class="col-sm-2 control-label">Name*:</label>
+    							<div class="col-sm-10">
+      								<input type="text" class="form-control" id="inputName" placeholder="First Name">
+    							</div>
+  							</div>
+  							<div class="form-group">
+    							<label for="inputSubject" class="col-sm-2 control-label">Subject*:</label>
+    							<div class="col-sm-10">
+      								<input type="text" class="form-control" id="inputSubject" placeholder="e.g. Outlook not working">
+    							</div>
+  							</div>
+                            <div class="form-group">
+    							<label for="selectPriority" class="col-sm-2 control-label">Priority*:</label>
+    							<div class="col-sm-10">
+                            		<select class="form-control">
+  										<option>Low</option>
+  										<option>Moderate</option>
+  										<option>High</option>
+  										<option>Emergency</option>
+									</select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+    							<label for="inputMessage" class="col-sm-2 control-label">Message*:</label>
+    							<div class="col-sm-10">
+      								<textarea class="form-control" rows="3" placeholder="Description of your request..." id="inputMessage"></textarea>
+    							</div>
+  							</div>
+                            <div class="form-group">
+                            	<label for="attachment" class="col-sm-2 control-label">Attachment:</label>
+    							<div class="col-sm-10">
+      								<button type="submit" class="btn btn-default" id="attachment">Choose File</button> No file chosen
+    							</div>
+  							</div>
+   							<div class="form-group">
+    							<div class="col-sm-offset-2 col-sm-10">
+      								<button type="submit" class="btn btn-default searchSubmit">Submit</button>
+    							</div>
+  							</div>
+                            <div class="form-group">
+                            	<div class="col-sm-offset-2 col-sm-10">
+                            		* Required Fields
+                            	</div>
+                            </div>
+						</form>
+                    </div>
+            	</div>
+            </div>
+        </div> <!-- End containter row -->
+	</div> <!-- End container -->
+</body>
+</html>
