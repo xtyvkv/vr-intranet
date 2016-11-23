@@ -1,0 +1,29 @@
+<div>
+  <table>
+	{{#each users}}
+		<tr id={{this.EmpId}}>
+		<th>{{this.FirstName}}</th>
+    <td>
+      <div>
+        
+        <label  class="radio-inline"> 
+          <input id="in_{{this.EmpId}}" type="radio" name="options" data-in: "{{this.InOffice}}"> In 
+        </label>
+
+        <label  class="radio-inline"> 
+          <input id="out_{{this.EmpId}}" type="radio" name="options" data-in: "{{this.OutOffice}}">Out
+        </label>
+
+        <label class="radio-inline">
+          <input id="remote_{{this.EmpId}}" type="radio" name="options" data-in: "{{this.Home}}">Remote
+        </label>
+      </div>
+    </td>
+
+
+		</tr>
+	{{/each}}
+  <table>
+</div>
+
+

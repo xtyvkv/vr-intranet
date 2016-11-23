@@ -2,23 +2,24 @@ var express = require("express");
 var app = express();
 var morgan = require('morgan');
 
+var api = require('./routes/api.js');
+
+var exphbs= require('express-handlebars');
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
 app.use(morgan('dev'));
 
-var retrieveInOut = require('./controller/cont.js');
-
 app.get('/', function(req, res) {
-	res.send("Hello World");
+	res.render("index");
 });
 
-app.get('/inout', function (req, res) {
-	retrieveInOut(req, res);
-});
+app.use('/assets', express.static('assets'));
+
+app.use('/api', api);
 
 
-app.use('/public', express.static('vr-intranet'));
-
-
-
-app.listen(3000, function () {
+app.listen(8080, function () {
 	console.log("App running on port 8080");
 } );
