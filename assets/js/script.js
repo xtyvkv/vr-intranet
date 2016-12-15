@@ -2,6 +2,7 @@ $(document).ready(function(){
 
 //Retrieve In-Out Board and populate DOM
   retrieveStatusAll(retrieveStatusAll);
+  kitchenDuty();
 
 }); //End Retrieve In-Out Board
 
@@ -128,5 +129,13 @@ function retrieveStatusAll(cb) {
   if (cb) {
       var r = window.setTimeout(cb, 1000);
     }
+}
+
+function kitchenDuty() {
+ $.ajax({
+  url: "/api/kitchen"
+ }).done(function(data) {
+    $('#kd').text(data);
+ });
 }
 

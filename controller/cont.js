@@ -2,6 +2,8 @@ var db = require('mssql');
 
 var config = require('../config/config.js');
 
+var moment = require('moment');
+
 var board = {}
 
 board.retrieveInOut = function(req, res) {
@@ -54,15 +56,20 @@ board.updateStatus = function(req, res, empID, newStatus) {
 }
 
 
-board.kitchenDuty = function() {
+board.kitchenDuty = function(req, res) {
+	var thisMonday = moment().startOf('week');
+	// console.log(thisMonday);
 	db.connect(config).then(function(){
-		var qry = "SELECT tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee on tblCleanup.EmpID=tblEmployee.EmpID ORDER BY CleanDate";
+		var qry = "SELECT TOP 1 tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee on tblCleanup.EmpID=tblEmployee.EmpID WHERE tblCleanup.CleanDate <= GETDATE() ORDER BY CleanDate DESC";
 
 		db.connect(config).then(function(){
 			new db.Request().query(qry).then(function(result){
-				console.log(result);
+				// console.log(result);
+				result.length > 0 ? res.send(result[0].Name) : res.send("No One");
 			})
-			.catch(function(err){});
+			.catch(function(err){
+				console.log(err);
+			});
 		});
 	});
 }

@@ -21,7 +21,7 @@ router.put('/update/:empID/:newStatus', function(req, res) {
 
 
 router.get ('/kitchen', function(req, res){
-  board.kitchenDuty();
+  board.kitchenDuty(req, res);
 });
 
 module.exports = router;
