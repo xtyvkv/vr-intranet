@@ -1,8 +1,58 @@
 $(document).ready(function(){
 
 //Retrieve In-Out Board and populate DOM
+  retrieveStatusAll(retrieveStatusAll);
 
+}); //End Retrieve In-Out Board
+
+//In-Out Event Listener
+
+$('#inoutboard').on('click', 'label', function() {
+  var emp = $(this);
+  var empID = emp.parents('tr').data('empID');
+  var status = emp.parents('tr').data('status');
+  var label = emp.attr('class');
+  var clicked = label.substring(0, label.indexOf("-"));
+  console.log(clicked);
+  udpateStatus(empID, clicked);
+
+  switch (clicked){
+    case "in":
+      emp.siblings('.inBox').attr('checked', true);
+      emp.siblings('.outBox').attr('checked', false);
+      emp.siblings('.remoteBox').attr('checked', false);
+      break;
+
+    case "out":
+      emp.siblings('.outBox').attr('checked', true);
+      emp.siblings('.inBox').attr('checked', false);
+      emp.siblings('.remoteBox').attr('checked', false);
+      break;
+
+    case "home":
+      emp.siblings('.remoteBox').attr('checked', true);
+      emp.siblings('.inBox').attr('checked', false);
+      emp.siblings('.outBox').attr('checked', false);
+      break;
+
+  }
+
+});
+
+//End In-Out Event Listener
+
+//Update status
+function udpateStatus (empID, newStatus) {
   $.ajax({
+    url: "/api/update/" + empID + "/" + newStatus,
+    type: "PUT"
+  }).done(function(result) {
+    console.log(result);
+  });
+}
+
+function retrieveStatusAll(cb) {
+   $.ajax({
     url: "/api/inout"
   }).done(function(data){
     // console.log(data);
@@ -72,53 +122,11 @@ $(document).ready(function(){
       $('#inoutboard').append(newRow);
 
     });
+    
   });
 
-}); //End Retrieve In-Out Board
-
-//In-Out Event Listener
-
-$('#inoutboard').on('click', 'label', function() {
-  var emp = $(this);
-  var empID = emp.parents('tr').data('empID');
-  var status = emp.parents('tr').data('status');
-  var label = emp.attr('class');
-  var clicked = label.substring(0, label.indexOf("-"));
-  console.log(clicked);
-  udpateStatus(empID, clicked);
-
-  switch (clicked){
-    case "in":
-      emp.siblings('.inBox').attr('checked', true);
-      emp.siblings('.outBox').attr('checked', false);
-      emp.siblings('.remoteBox').attr('checked', false);
-      break;
-
-    case "out":
-      emp.siblings('.outBox').attr('checked', true);
-      emp.siblings('.inBox').attr('checked', false);
-      emp.siblings('.remoteBox').attr('checked', false);
-      break;
-
-    case "home":
-      emp.siblings('.remoteBox').attr('checked', true);
-      emp.siblings('.inBox').attr('checked', false);
-      emp.siblings('.outBox').attr('checked', false);
-      break;
-
-  }
-
-});
-
-//End In-Out Event Listener
-
-//Update status
-function udpateStatus (empID, newStatus) {
-  $.ajax({
-    url: "/api/update/" + empID + "/" + newStatus,
-    type: "PUT"
-  }).done(function(result) {
-    console.log(result);
-  });
+  if (cb) {
+      var r = window.setTimeout(cb, 1000);
+    }
 }
 
