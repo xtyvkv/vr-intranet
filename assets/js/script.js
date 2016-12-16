@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
 //Retrieve In-Out Board and populate DOM
-  retrieveStatusAll(retrieveStatusAll);
-  kitchenDuty();
+  retrieveStatusAll(retrieveCalendar);
+
 
 }); //End Retrieve In-Out Board
 
@@ -42,7 +42,7 @@ $('#inoutboard').on('click', 'label', function() {
 
 //End In-Out Event Listener
 
-//Update status
+
 function udpateStatus (empID, newStatus) {
   $.ajax({
     url: "/api/update/" + empID + "/" + newStatus,
@@ -123,12 +123,13 @@ function retrieveStatusAll(cb) {
       $('#inoutboard').append(newRow);
 
     });
-    
-  });
 
-  if (cb) {
-      var r = window.setTimeout(cb, 1000);
-    }
+    cb(kitchenDuty);
+    
+  })
+  .fail(function (err) {
+    console.log(err);
+  });
 }
 
 function kitchenDuty() {
@@ -137,5 +138,60 @@ function kitchenDuty() {
  }).done(function(data) {
     $('#kd').text(data);
  });
+}
+
+function retrieveCalendar(cb) {
+  $.ajax({
+    url: "/api/calendar"
+  }).done(function(data){
+    var tempObj = {};
+    var pos = 0;
+
+    data.forEach(function(el){
+      var date = moment(el.ItemDate).format("MM/DD");
+
+      if(date in tempObj) {
+        tempObj[date].items.push(el.ItemText);
+      } else {
+        tempObj[date] = {};
+        tempObj[date].column = pos;
+        pos++;
+        tempObj[date].items = [];
+        tempObj[date].items.push(el.ItemText);
+      }
+
+    });
+
+    var dates = Object.keys(tempObj);
+
+    dates.forEach(function(el) {
+      printCalendar(el, tempObj[el].items)
+    });
+
+    cb();
+  });
+
+
+}
+
+function printCalendar(date, data) {
+  var cal = $('#calendar');
+
+    var newCol = $('<div>');
+    newCol.addClass('col-sm-4');
+
+    var newUL = $('<ul>');
+    newUL.addClass('list-group')
+    newUL.append('<li class="list-group-item eventDay">' + date + '</li>');
+
+    data.forEach(function(el) {
+      var newLI = $('<li>');
+      newLI.addClass('list-group-item')
+      newLI.text(el);
+      newUL.append(newLI);
+    });
+
+    newCol.append(newUL);
+    cal.append(newCol);
 }
 

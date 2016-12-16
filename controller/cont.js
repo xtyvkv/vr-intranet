@@ -74,6 +74,25 @@ board.kitchenDuty = function(req, res) {
 	});
 }
 
+board.Calendar = function(req, res) {
+	var thisMonday = moment().startOf('week');
+	// console.log(thisMonday);
+	db.connect(config).then(function(){
+		var qry = "SELECT ItemText, ItemDate FROM tblCalendar WHERE ItemDate >= GETDATE() ORDER BY ItemDate ASC";
+
+		db.connect(config).then(function(){
+			new db.Request().query(qry).then(function(result){
+				// console.log(result);
+				res.send(result);
+			})
+			.catch(function(err){
+				console.log(err);
+			});
+		});
+	});
+}
+
+
 
 //Catch DB connectivity Errors
 

@@ -24,5 +24,9 @@ router.get ('/kitchen', function(req, res){
   board.kitchenDuty(req, res);
 });
 
+router.get('/calendar', function(req, res) {
+  board.Calendar(req, res);
+});
+
 module.exports = router;
 
