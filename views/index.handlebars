@@ -241,20 +241,11 @@
 						<div class="col-sm-12">
            				<div class="panel panel-default">
  								<!-- Default panel contents -->
-  								<div class="panel-heading">Announcements <span class="glyphicon glyphicon-flash ph-icon" aria-hidden="true"></span></div>
+  								<div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" data-toggle="modal" data-target="#modalFormAnn"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
                                 <div class="panel-body">
-    									<div class="input-group">
-      										<input type="text" class="form-control" placeholder="Write an announcement..">
-     										<span class="input-group-btn">
-        										<button class="btn btn-default" type="button">Add</button>
-      										</span>
-   										</div><!-- /input-group -->
+    						
                                         <p>
-                                        	<ul class="list-group">
-  												<li class="list-group-item">
-    												<span class="badge">OCT. 22</span>
-    												Cras justo odio
-  												</li>
+                                        	<ul class="list-group" id="ulAnn">
 											</ul>
 										</p>
                                 </div> <!-- End panel body -->
@@ -279,6 +270,35 @@
             </div> <!-- End right column -->
         </div> <!-- End containter row -->
 	</div> <!-- End container -->
+
+
+  <div class="modal fade" id="modalFormAnn">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Add Announcement</h4>
+      </div>
+      <div class="modal-body">
+        <form id="formAnn">
+            <div class="form-group">
+              <label for="exampleTextarea">Type your announcement below:</label>
+              <textarea class="form-control" id="txtAnn" rows="3"></textarea>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="btnSubmitFormAnn">Submit</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js"></script>
     <script type="text/javascript" src="/assets/js/script.js"></script>

@@ -28,5 +28,16 @@ router.get('/calendar', function(req, res) {
   board.Calendar(req, res);
 });
 
+router.get('/ann', function(req, res) {
+  board.ann(req, res);
+});
+
+router.post('/ann', function(req, res) {
+  console.log(req.body);
+});
+
+router.put('/ann/:id', function(req, res) {
+  console.log(req.params.id);
+});
 module.exports = router;
 

@@ -92,6 +92,24 @@ board.Calendar = function(req, res) {
 	});
 }
 
+board.ann = function(req, res) {
+	var thisMonday = moment().startOf('week');
+	// console.log(thisMonday);
+	db.connect(config).then(function(){
+		var qry = "SELECT id, text FROM tblAnn WHERE deleted=0 AND date BETWEEN GETDATE()-14 AND GETDATE() ORDER BY date DESC";
+
+		db.connect(config).then(function(){
+			new db.Request().query(qry).then(function(result){
+				// console.log(result);
+				res.send(result);
+			})
+			.catch(function(err){
+				console.log(err);
+			});
+		});
+	});
+}
+
 
 
 //Catch DB connectivity Errors

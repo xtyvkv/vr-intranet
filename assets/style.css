@@ -360,6 +360,26 @@ a.goto {
 	line-height:30px;
 }
 
+#calendar {
+  height: 25em;
+  overflow: auto;
+}
+
+/****************/
+.day {
+  width: 30%;
+  margin: 10px;
+  display: inline-flex;
+}
+
+.day > ul {
+  width: 100%;
+}
+
+.ann-del {
+  float: right;
+}
+
 @media (max-width: 767px) {
 .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
     color: #fff;

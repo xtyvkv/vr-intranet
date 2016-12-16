@@ -1,13 +1,8 @@
 $(document).ready(function(){
-
-//Retrieve In-Out Board and populate DOM
   retrieveStatusAll(retrieveCalendar);
+}); 
 
-
-}); //End Retrieve In-Out Board
-
-//In-Out Event Listener
-
+//In-Out event listener
 $('#inoutboard').on('click', 'label', function() {
   var emp = $(this);
   var empID = emp.parents('tr').data('empID');
@@ -41,7 +36,24 @@ $('#inoutboard').on('click', 'label', function() {
 });
 
 //End In-Out Event Listener
+$('#btnSubmitFormAnn').on('click', function() {
+  var newAnn = $('#txtAnn').val().trim();
+  $.ajax({
+    url: "/api/ann",
+    type: "POST",
+    data: {textAnn: newAnn}
+  })
+  .done(function(res){
+    console.log(res);
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
 
+  resetForm($('#formAnn'));
+  $('#modalFormAnn').modal("hide");
+  return false;
+});
 
 function udpateStatus (empID, newStatus) {
   $.ajax({
@@ -54,7 +66,8 @@ function udpateStatus (empID, newStatus) {
 
 function retrieveStatusAll(cb) {
    $.ajax({
-    url: "/api/inout"
+    url: "/api/inout",
+    type: "GET"
   }).done(function(data){
     // console.log(data);
     data.users.forEach(function(el) {
@@ -132,12 +145,14 @@ function retrieveStatusAll(cb) {
   });
 }
 
-function kitchenDuty() {
+function kitchenDuty(cb) {
  $.ajax({
-  url: "/api/kitchen"
+  url: "/api/kitchen",
+  type: "GET"
  }).done(function(data) {
     $('#kd').text(data);
  });
+ cb()
 }
 
 function retrieveCalendar(cb) {
@@ -168,7 +183,7 @@ function retrieveCalendar(cb) {
       printCalendar(el, tempObj[el].items)
     });
 
-    cb();
+    cb(retrieveAnn);
   });
 
 
@@ -178,7 +193,7 @@ function printCalendar(date, data) {
   var cal = $('#calendar');
 
     var newCol = $('<div>');
-    newCol.addClass('col-sm-4');
+    newCol.addClass('day');
 
     var newUL = $('<ul>');
     newUL.addClass('list-group')
@@ -195,3 +210,33 @@ function printCalendar(date, data) {
     cal.append(newCol);
 }
 
+
+function retrieveAnn() {
+  $.ajax({
+    url: "/api/ann",
+    type: "GET"
+  })
+  .done(function(data) {
+    var contAnn = $('#ulAnn');
+    data.forEach(function(el) {
+      var newRow = $('<li>');
+      newRow.addClass('list-group-item');
+      newRow.text(el.text);
+
+      var newBtn = $('<button>');
+      newBtn.text('X');
+      newBtn.data('ann-id', el.id);
+      newBtn.addClass('ann-del');
+      newRow.append(newBtn);
+
+      contAnn.append(newRow);
+    });
+  });
+}
+
+function resetForm($form) {
+    $form.find('input:text, input:password, input:file, select, textarea').val('');
+    $form.find('input:radio, input:checkbox')
+         .removeAttr('checked').removeAttr('selected')
+         .prop('checked', false);
+}
