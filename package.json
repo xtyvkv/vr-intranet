@@ -10,7 +10,9 @@
   "license": "BSD",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "express-handlebars": "^3.0.0",
     "moment": "^2.17.1",
+    "mssql": "^3.3.0",
     "tedious": "~1.14.0"
   }
 }
