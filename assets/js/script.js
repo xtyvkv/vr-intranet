@@ -1,6 +1,92 @@
 $(document).ready(function(){
-  retrieveStatusAll(retrieveCalendar);
+  // retrieveStatusAll();
+  // retrieveCalendar();
+  // kitchenDuty();
+
+//Chained promises but difficult to maintain
+  // get("http://localhost:8080/api/kitchen")
+  //   .then(function(res){
+  //     console.log(res);
+  //   })
+  //   .then(function() {
+  //       get("/api/inout")
+  //         .then(function(res){
+  //           console.log(res);
+  //         })
+  //         .then(function(){
+  //           get("/api/calendar")
+  //             .then(function(res){
+  //               console.log(res);
+  //             })
+  //             .catch(function(err){
+  //               console.log(err);
+  //             });
+  //         })
+  //         .catch(function(err){
+  //           console.log(err)
+  //         });
+  //   })
+  //   .catch(function(err){
+  //     console.log(err);
+  //   });
+
+
+get("/api/kitchen")
+  .then(function(kd){
+    $('#kd').text(kd);
+    return get("/api/inout");
+  })
+  .then(function(status){
+    processStatusAll(status);
+    return get("/api/calendar");
+  })
+  .then(function(cals){
+    processCalendar(cals);
+    return get("/api/ann");
+  })
+  .then(function(anns) {
+    printAnn(anns);
+  })
+  .catch(function(err){
+    console.log(err)
+  });
+
 }); 
+
+function get(url) {
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function() {
+      if (req.status == 200) {
+        // resolve(req.response);
+        //Attempt to convert response to a JSON object
+        try {
+          var d = JSON.parse(req.response);
+          resolve(d);
+        }
+        catch (err){
+          resolve(req.response);
+        }
+      }
+
+      else {
+        reject(Error(req.statusText));
+      }
+    };
+
+    //Handle network errors
+    req.onerror = function() {
+      reject(Error("Network error"));
+    };
+
+    //Make the request
+    req.send();
+
+  });
+}
+
 
 //In-Out event listener
 $('#inoutboard').on('click', 'label', function() {
@@ -64,101 +150,78 @@ function udpateStatus (empID, newStatus) {
   });
 }
 
-function retrieveStatusAll(cb) {
-   $.ajax({
-    url: "/api/inout",
-    type: "GET"
-  }).done(function(data){
+function processStatusAll(data){
     // console.log(data);
-    data.users.forEach(function(el) {
-      var newRow = $('<tr>');
-      newRow.data('empID', el.EmpID);
+  data.users.forEach(function(el) {
+    var newRow = $('<tr>');
+    newRow.data('empID', el.EmpID);
 
-      var name = $('<th>');
-      name.text(el.FirstName);
-      newRow.append(name);
+    var name = $('<th>');
+    name.text(el.FirstName);
+    newRow.append(name);
 
-      var status = $('<td>');
+    var status = $('<td>');
 
-      var stsIn = $('<label>');
-      stsIn.text("In");
-      stsIn.addClass('in-label');
-      var inBox = $('<input>');
-      inBox.attr('type', 'checkbox');
-      if(el.InOffice){
-        inBox.attr('checked', true);
-        newRow.data('status', 'in');
-      } else {
-        inBox.attr('checked', false);
-      }
-      inBox.addClass("switcher inBox");
-      status.append(inBox);
-      status.append(stsIn);
+    var stsIn = $('<label>');
+    stsIn.text("In");
+    stsIn.addClass('in-label');
+    var inBox = $('<input>');
+    inBox.attr('type', 'checkbox');
+    if(el.InOffice){
+      inBox.attr('checked', true);
+      newRow.data('status', 'in');
+    } else {
+      inBox.attr('checked', false);
+    }
+    inBox.addClass("switcher inBox");
+    status.append(inBox);
+    status.append(stsIn);
 
-      var stsOut = $('<label>');
-      stsOut.text("Out");
-      stsOut.addClass("out-label");
-      var OutBox = $('<input>');
-      OutBox.attr('type', 'checkbox');
+    var stsOut = $('<label>');
+    stsOut.text("Out");
+    stsOut.addClass("out-label");
+    var OutBox = $('<input>');
+    OutBox.attr('type', 'checkbox');
 
-      if(el.OutOffice) {
-        OutBox.attr('checked', true);
-        newRow.data('status', 'out')
-      } else {
-        OutBox.attr('checked', false);
-      }
+    if(el.OutOffice) {
+      OutBox.attr('checked', true);
+      newRow.data('status', 'out')
+    } else {
+      OutBox.attr('checked', false);
+    }
 
-      OutBox.addClass("switcher outBox");
-      status.append(OutBox);
-      status.append(stsOut);
+    OutBox.addClass("switcher outBox");
+    status.append(OutBox);
+    status.append(stsOut);
 
-      var stsRemote = $('<label>');
-      stsRemote.text("Remote");
-      stsRemote.addClass("home-label");
-      var RemoteBox = $('<input>');
-      RemoteBox.attr('type', 'checkbox');
-      if(el.Home){
-        RemoteBox.attr('checked', true);
-        newRow.data('status', 'remote');
-      } else{
-        RemoteBox.attr('checked', false);
-      }
-      RemoteBox.addClass("switcher remoteBox");
-      status.append(RemoteBox);
-      status.append(stsRemote);
+    var stsRemote = $('<label>');
+    stsRemote.text("Remote");
+    stsRemote.addClass("home-label");
+    var RemoteBox = $('<input>');
+    RemoteBox.attr('type', 'checkbox');
+    if(el.Home){
+      RemoteBox.attr('checked', true);
+      newRow.data('status', 'remote');
+    } else{
+      RemoteBox.attr('checked', false);
+    }
+    RemoteBox.addClass("switcher remoteBox");
+    status.append(RemoteBox);
+    status.append(stsRemote);
 
-      newRow.append(status);
+    newRow.append(status);
 
-      var extension = $('<td>');
-      extension.text(el.Extension);
-      newRow.append(extension);
+    var extension = $('<td>');
+    extension.text(el.Extension);
+    newRow.append(extension);
 
-      $('#inoutboard').append(newRow);
+    $('#inoutboard').append(newRow);
 
-    });
-
-    cb(kitchenDuty);
-    
-  })
-  .fail(function (err) {
-    console.log(err);
   });
-}
+    
+  }
 
-function kitchenDuty(cb) {
- $.ajax({
-  url: "/api/kitchen",
-  type: "GET"
- }).done(function(data) {
-    $('#kd').text(data);
- });
- cb()
-}
-
-function retrieveCalendar(cb) {
-  $.ajax({
-    url: "/api/calendar"
-  }).done(function(data){
+function processCalendar(data){
     var tempObj = {};
     var pos = 0;
 
@@ -182,11 +245,6 @@ function retrieveCalendar(cb) {
     dates.forEach(function(el) {
       printCalendar(el, tempObj[el].items)
     });
-
-    cb(retrieveAnn);
-  });
-
-
 }
 
 function printCalendar(date, data) {
@@ -211,12 +269,7 @@ function printCalendar(date, data) {
 }
 
 
-function retrieveAnn() {
-  $.ajax({
-    url: "/api/ann",
-    type: "GET"
-  })
-  .done(function(data) {
+function printAnn(data) {
     var contAnn = $('#ulAnn');
     data.forEach(function(el) {
       var newRow = $('<li>');
@@ -231,7 +284,6 @@ function retrieveAnn() {
 
       contAnn.append(newRow);
     });
-  });
 }
 
 function resetForm($form) {
