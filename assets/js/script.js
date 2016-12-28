@@ -1,36 +1,6 @@
 $(document).ready(function(){
-  // retrieveStatusAll();
-  // retrieveCalendar();
-  // kitchenDuty();
 
-//Chained promises but difficult to maintain
-  // get("http://localhost:8080/api/kitchen")
-  //   .then(function(res){
-  //     console.log(res);
-  //   })
-  //   .then(function() {
-  //       get("/api/inout")
-  //         .then(function(res){
-  //           console.log(res);
-  //         })
-  //         .then(function(){
-  //           get("/api/calendar")
-  //             .then(function(res){
-  //               console.log(res);
-  //             })
-  //             .catch(function(err){
-  //               console.log(err);
-  //             });
-  //         })
-  //         .catch(function(err){
-  //           console.log(err)
-  //         });
-  //   })
-  //   .catch(function(err){
-  //     console.log(err);
-  //   });
-
-
+//Load data
 get("/api/kitchen")
   .then(function(kd){
     $('#kd').text(kd);
@@ -53,39 +23,6 @@ get("/api/kitchen")
 
 }); 
 
-function get(url) {
-  return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-
-    req.onload = function() {
-      if (req.status == 200) {
-        // resolve(req.response);
-        //Attempt to convert response to a JSON object
-        try {
-          var d = JSON.parse(req.response);
-          resolve(d);
-        }
-        catch (err){
-          resolve(req.response);
-        }
-      }
-
-      else {
-        reject(Error(req.statusText));
-      }
-    };
-
-    //Handle network errors
-    req.onerror = function() {
-      reject(Error("Network error"));
-    };
-
-    //Make the request
-    req.send();
-
-  });
-}
 
 
 //In-Out event listener
@@ -124,13 +61,13 @@ $('#inoutboard').on('click', 'label', function() {
 //End In-Out Event Listener
 $('#btnSubmitFormAnn').on('click', function() {
   var newAnn = $('#txtAnn').val().trim();
-  $.ajax({
-    url: "/api/ann",
-    type: "POST",
-    data: {textAnn: newAnn}
-  })
-  .done(function(res){
+  post("/api/ann", "msg=" + newAnn)
+  .then(function(res){
     console.log(res);
+    return get("/api/ann");
+  })
+  .then(function(anns){
+    printAnn(anns);
   })
   .catch(function(err) {
     console.log(err);
@@ -139,6 +76,22 @@ $('#btnSubmitFormAnn').on('click', function() {
   resetForm($('#formAnn'));
   $('#modalFormAnn').modal("hide");
   return false;
+});
+
+$('#modalFormAnn').on('shown.bs.modal', function () {
+  $('#txtAnn').focus();
+});
+
+$('#ulAnn').on('click', '.ann-del', function(){
+  var id = $(this).data('ann-id');
+  put("/api/ann/" + id)
+    .then(function(result){
+      console.log(result);
+      $('#row-ann-' + id).remove();
+
+    }).catch(function(err){
+      console.log(err);
+    });
 });
 
 function udpateStatus (empID, newStatus) {
@@ -271,19 +224,29 @@ function printCalendar(date, data) {
 
 function printAnn(data) {
     var contAnn = $('#ulAnn');
-    data.forEach(function(el) {
-      var newRow = $('<li>');
-      newRow.addClass('list-group-item');
-      newRow.text(el.text);
+    contAnn.empty();
+    if (data.length > 0) {
 
-      var newBtn = $('<button>');
-      newBtn.text('X');
-      newBtn.data('ann-id', el.id);
-      newBtn.addClass('ann-del');
-      newRow.append(newBtn);
+      data.forEach(function(el) {
+        var newRow = $('<li>');
+        newRow.addClass('list-group-item');
+        newRow.attr('id', 'row-ann-' + el.id)
+        newRow.text(el.text);
 
-      contAnn.append(newRow);
-    });
+        var newBtn = $('<button>');
+        newBtn.text('X');
+        newBtn.data('ann-id', el.id);
+        newBtn.addClass('ann-del');
+        newRow.append(newBtn);
+
+        contAnn.append(newRow);
+      });
+
+    } 
+
+    else {
+      contAnn.append("<li><h3>No announcements</h3></li>");
+    }
 }
 
 function resetForm($form) {
@@ -291,4 +254,78 @@ function resetForm($form) {
     $form.find('input:radio, input:checkbox')
          .removeAttr('checked').removeAttr('selected')
          .prop('checked', false);
+}
+
+
+function get(url) {
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function() {
+      if (req.status == 200) {
+        // resolve(req.response);
+        //Attempt to convert response to a JSON object
+        try {
+          var d = JSON.parse(req.response);
+          resolve(d);
+        }
+        catch (err){
+          resolve(req.response);
+        }
+      }
+
+      else {
+        reject(Error(req.statusText));
+      }
+    };
+
+    //Handle network errors
+    req.onerror = function() {
+      reject(Error("Network error"));
+    };
+
+    //Make the request
+    req.send();
+
+  });
+}
+
+
+function post(url, data) {
+  return new Promise(function(resolve, reject){
+    var req = new XMLHttpRequest();
+    req.open("POST", url, true);
+
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    req.addEventListener("load", function(re){
+      resolve(req.response);
+    });
+
+    req.addEventListener("error", function(err){
+      reject(Error("Network error"));
+    });
+
+    req.send(data);
+  
+  });
+}
+
+function put(url, data) {
+  return new Promise(function(resolve, reject){
+    var req = new XMLHttpRequest();
+    req.open("PUT", url, true);
+
+    req.addEventListener("load", function(re){
+      resolve(req.response);
+    });
+
+    req.addEventListener("error", function(err){
+      reject(Error("Network error: \n", err));
+    });
+
+    req.send(data);
+
+  });
 }

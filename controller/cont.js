@@ -20,7 +20,8 @@ board.retrieveInOut = function(req, res) {
 		})
 		.catch(function(err) {
 			console.log(err);
-			res.send('Database error');
+			// res.send('Database error');
+			res.send("Request to ", req.url, " failed");
 		});
 	});
 
@@ -50,6 +51,7 @@ board.updateStatus = function(req, res, empID, newStatus) {
 		})
 		.catch(function(err){
 			console.log(err);
+			res.send("Request to ", req.url, " failed");
 		});
 	});
 	
@@ -62,14 +64,13 @@ board.kitchenDuty = function(req, res) {
 	db.connect(config).then(function(){
 		var qry = "SELECT TOP 1 tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee on tblCleanup.EmpID=tblEmployee.EmpID WHERE tblCleanup.CleanDate <= GETDATE() ORDER BY CleanDate DESC";
 
-		db.connect(config).then(function(){
-			new db.Request().query(qry).then(function(result){
-				// console.log(result);
-				result.length > 0 ? res.send(result[0].Name) : res.send("No One");
-			})
-			.catch(function(err){
-				console.log(err);
-			});
+		new db.Request().query(qry).then(function(result){
+			// console.log(result);
+			result.length > 0 ? res.send(result[0].Name) : res.send("No One");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("Request to ", req.url, " failed");
 		});
 	});
 }
@@ -80,14 +81,13 @@ board.Calendar = function(req, res) {
 	db.connect(config).then(function(){
 		var qry = "SELECT ItemText, ItemDate FROM tblCalendar WHERE ItemDate >= GETDATE() ORDER BY ItemDate ASC";
 
-		db.connect(config).then(function(){
-			new db.Request().query(qry).then(function(result){
-				// console.log(result);
-				res.send(result);
-			})
-			.catch(function(err){
-				console.log(err);
-			});
+		new db.Request().query(qry).then(function(result){
+			// console.log(result);
+			res.send(result);
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("Request to ", req.url, " failed");
 		});
 	});
 }
@@ -98,19 +98,44 @@ board.ann = function(req, res) {
 	db.connect(config).then(function(){
 		var qry = "SELECT id, text FROM tblAnn WHERE deleted=0 AND date BETWEEN GETDATE()-14 AND GETDATE() ORDER BY date DESC";
 
-		db.connect(config).then(function(){
-			new db.Request().query(qry).then(function(result){
-				// console.log(result);
-				res.send(result);
-			})
-			.catch(function(err){
-				console.log(err);
-			});
+		new db.Request().query(qry).then(function(result){
+			// console.log(result);
+			res.send(result);
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("Request to ", req.url, " failed");
 		});
 	});
 }
 
+board.annAdd = function(req, res) {
+	var qry = "INSERT INTO tblAnn (text, date) VALUES ('" + req.body.msg + "', CURRENT_TIMESTAMP)"
+	db.connect(config).then(function(){
+		new db.Request().query(qry).then(function(result){
+			res.send("New announcement added successfully");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("failed to delete announcement");
+		});
+	});
+};
 
+board.annDel = function(req, res) {
+	var qry = "UPDATE tblAnn SET deleted=1 WHERE id=" + req.params.id;
+
+	db.connect(config).then(function(){
+
+		new db.Request().query(qry).then(function(result){
+			res.send("successfully deleted announcement");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("failed to delete announcement");
+		});
+	});
+}
 
 //Catch DB connectivity Errors
 

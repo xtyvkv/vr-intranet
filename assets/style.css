@@ -34,7 +34,7 @@
 
 		/*_________*/
 		
-input {
+input[type=checkbox] {
   position: absolute;
   left: -9999px;
   display:none;

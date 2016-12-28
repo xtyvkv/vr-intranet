@@ -33,11 +33,15 @@ router.get('/ann', function(req, res) {
 });
 
 router.post('/ann', function(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
+  board.annAdd(req, res);
 });
 
 router.put('/ann/:id', function(req, res) {
-  console.log(req.params.id);
+  // console.log(req.params.id);
+  board.annDel(req, res)
 });
+
+
 module.exports = router;
 
