@@ -49,65 +49,17 @@ $('#inoutboard').on('click', 'span', function(){
     }
   });
 
-
-//In-Out event listener
-// $('#inoutboard').on('click', 'span', function() {
-//   // var emp = $(this);
-//   // var empID = emp.parents('tr').data('empID');
-//   // var status = emp.parents('tr').data('status');
-//   // var label = emp.attr('class');
-//   // var clicked = label.substring(0, label.indexOf("-"));
-//   // console.log(clicked);
-//   // udpateStatus(empID, clicked);
-
-//   // switch (clicked){
-//   //   case "in":
-//   //     emp.siblings('.inBox').attr('checked', true);
-//   //     emp.siblings('.outBox').attr('checked', false);
-//   //     emp.siblings('.remoteBox').attr('checked', false);
-//   //     break;
-
-//   //   case "out":
-//   //     emp.siblings('.outBox').attr('checked', true);
-//   //     emp.siblings('.inBox').attr('checked', false);
-//   //     emp.siblings('.remoteBox').attr('checked', false);
-//   //     break;
-
-//   //   case "home":
-//   //     emp.siblings('.remoteBox').attr('checked', true);
-//   //     emp.siblings('.inBox').attr('checked', false);
-//   //     emp.siblings('.outBox').attr('checked', false);
-//   //     break;
-
-//   // }
-//   console.log($(this));
-//   var empID = $(this).parents('tr').data('empID');
-//   var label = $(this).attr('class');
-//   var clicked = label.substring(0, label.indexOf("-"));
-//   updateStatus(empID, clicked);
-
-//     switch (clicked) {
-//       case "in":
-//         $(this).addClass('in-label-checked');
-//         $(this).siblings('.out-label').removeClass('out-label-checked');
-//         $(this).siblings('.remote-label').removeClass('remote-label-checked');
-//         break;
-//       case "out":
-//         $(this).addClass('out-label-checked');
-//         $(this).siblings('.in-label').removeClass('in-label-checked');
-//         $(this).siblings('.remote-label').removeClass('remote-label-checked');
-//         break;
-//       case "remote":
-//         $(this).addClass('remote-label-checked');
-//         $(this).siblings('.out-label').removeClass('out-label-checked');
-//         $(this).siblings('.in-label').removeClass('in-label-checked');
-//         break;
-//     }
-
+// $('#FormAnn').submit(function(event) {
+//   addAnnouncement();
+//   return false;
 // });
 
-//End In-Out Event Listener
-$('#btnSubmitFormAnn').on('click', function() {
+$('#btnSubmitFormAnn').on('click', function(){
+  addAnnouncement();
+  return false;
+});
+
+function addAnnouncement() {
   var newAnn = $('#txtAnn').val().trim();
   post("/api/ann", "msg=" + newAnn)
   .then(function(res){
@@ -123,11 +75,26 @@ $('#btnSubmitFormAnn').on('click', function() {
 
   resetForm($('#formAnn'));
   $('#modalFormAnn').modal("hide");
-  return false;
+}
+
+$('#btnShowFormAnn').on('click', function(){
+  $('#modalFormAnn').modal('show');
+
+  $('#modalFormAnn').on('shown.bs.modal', function(){
+    $('#txtAnn').focus();
+  });
+  
 });
 
-$('#modalFormAnn').on('shown.bs.modal', function () {
-  $('#txtAnn').focus();
+//On enter key click submit (for modals)
+$(function(){
+  $('.modal-content').keypress(function(e){
+    if(e.which == 13) {
+      var b = $(this).find('button[type=submit]');
+      b.click();
+      return false;
+    }
+  });
 });
 
 $('#ulAnn').on('click', '.ann-del', function(){
@@ -151,76 +118,6 @@ function updateStatus (empID, newStatus) {
   });
 }
 
-function processStatusAll(data){
-    // console.log(data);
-  data.users.forEach(function(el) {
-    var newRow = $('<tr>');
-    newRow.data('empID', el.EmpID);
-
-    var name = $('<th>');
-    name.text(el.FirstName);
-    newRow.append(name);
-
-    var status = $('<td>');
-
-    var stsIn = $('<label>');
-    stsIn.text("In");
-    stsIn.addClass('in-label');
-    var inBox = $('<input>');
-    inBox.attr('type', 'checkbox');
-    if(el.InOffice){
-      inBox.attr('checked', true);
-      newRow.data('status', 'in');
-    } else {
-      inBox.attr('checked', false);
-    }
-    inBox.addClass("switcher inBox");
-    status.append(inBox);
-    status.append(stsIn);
-
-    var stsOut = $('<label>');
-    stsOut.text("Out");
-    stsOut.addClass("out-label");
-    var OutBox = $('<input>');
-    OutBox.attr('type', 'checkbox');
-
-    if(el.OutOffice) {
-      OutBox.attr('checked', true);
-      newRow.data('status', 'out')
-    } else {
-      OutBox.attr('checked', false);
-    }
-
-    OutBox.addClass("switcher outBox");
-    status.append(OutBox);
-    status.append(stsOut);
-
-    var stsRemote = $('<label>');
-    stsRemote.text("Remote");
-    stsRemote.addClass("home-label");
-    var RemoteBox = $('<input>');
-    RemoteBox.attr('type', 'checkbox');
-    if(el.Home){
-      RemoteBox.attr('checked', true);
-      newRow.data('status', 'remote');
-    } else{
-      RemoteBox.attr('checked', false);
-    }
-    RemoteBox.addClass("switcher remoteBox");
-    status.append(RemoteBox);
-    status.append(stsRemote);
-
-    newRow.append(status);
-
-    var extension = $('<td>');
-    extension.text(el.Extension);
-    newRow.append(extension);
-
-    $('#inoutboard').append(newRow);
-
-  });
-    
-  }
 
 function processCalendar(data){
     var tempObj = {};

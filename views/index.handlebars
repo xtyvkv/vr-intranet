@@ -241,7 +241,7 @@
 						<div class="col-sm-12">
            				<div class="panel panel-default">
  								<!-- Default panel contents -->
-  								<div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" data-toggle="modal" data-target="#modalFormAnn"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
+  								<div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" {{!-- data-toggle="modal" data-target="#modalFormAnn" --}}><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
                                 <div class="panel-body">
     						
                                         <p>
@@ -273,7 +273,7 @@
 
 
   <div class="modal fade" id="modalFormAnn">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" role="document" id="mdlFa">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -284,10 +284,9 @@
       <div class="modal-body">
         <form id="formAnn">
             <div class="form-group">
-              <label for="txtAnn">Type your announcement below:</label>
-              <input type="text" id="txtAnn">
+{{!--               <label for="txtAnn">Type your announcement below:</label> --}}
+              <input type="text" id="txtAnn" style="width: 100%;">
               {{!-- <textarea class="form-control"  id="txtAnn"></textarea> --}}
-              <p>hello</p>
             </div>
         </form>
       </div>

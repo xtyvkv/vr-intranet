@@ -110,14 +110,15 @@ board.ann = function(req, res) {
 }
 
 board.annAdd = function(req, res) {
-	var qry = "INSERT INTO tblAnn (text, date) VALUES ('" + req.body.msg + "', CURRENT_TIMESTAMP)"
+	var msg = req.body.msg.replace("'", "''"); //Escape apostrophes
+	var qry = "INSERT INTO tblAnn (text, date) VALUES ('" + msg + "', CURRENT_TIMESTAMP)"
 	db.connect(config).then(function(){
 		new db.Request().query(qry).then(function(result){
 			res.send("New announcement added successfully");
 		})
 		.catch(function(err){
 			console.log(err);
-			res.send("failed to delete announcement");
+			res.send("failed to add announcement");
 		});
 	});
 };
