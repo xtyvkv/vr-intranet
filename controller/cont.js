@@ -38,7 +38,7 @@ board.updateStatus = function(req, res, empID, newStatus) {
 		case "out":
 			ns="OutOffice";
 			break;
-		case "home":
+		case "remote":
 			ns="Home";
 	}
 
@@ -51,7 +51,7 @@ board.updateStatus = function(req, res, empID, newStatus) {
 		})
 		.catch(function(err){
 			console.log(err);
-			res.send("Request to ", req.url, " failed");
+			res.send("Request to "+ req.url + " failed");
 		});
 	});
 	

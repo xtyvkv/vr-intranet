@@ -21,6 +21,10 @@ app.get('/', function(req, res) {
 	res.render("index");
 });
 
+app.get('/in', function(req, res) {
+	res.render("in");
+});
+
 app.use('/assets', express.static('assets'));
 
 app.use('/api', api);

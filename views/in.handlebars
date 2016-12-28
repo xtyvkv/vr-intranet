@@ -1,0 +1,125 @@
+<link rel="stylesheet" type="text/css" href="/assets/style.css">
+
+<table>
+	<thead><tr><th>Name</th><th>Status</th></tr></thead>
+	<tbody id="inoutboard">
+		<tr>
+			<td>Diana</td>
+			<td>
+				<span class="in-label">In</span>
+				<span class="out-label">Out</span>
+				<span class="home-label">Remote</span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+
+{{!-- <script type="text/javascript" src="/assets/js/script.js"></script> --}}
+
+
+<script type="text/javascript">
+
+	$('#inoutboard').on('click', 'span', function(){
+		var empID = $(this).parents('tr').data('empID');
+		var label = $(this).attr('class');
+		var clicked = label.substring(0, label.indexOf("-"));
+		// updateStatus(empID, clicked);
+
+		switch (clicked) {
+			case "in":
+				$(this).addClass('in-label-checked');
+				$(this).siblings('.out-label').removeClass('out-label-checked');
+				$(this).siblings('.remote-label').removeClass('remote-label-checked');
+				break;
+			case "out":
+				$(this).addClass('out-label-checked');
+				$(this).siblings('.in-label').removeClass('in-label-checked');
+				$(this).siblings('.remote-label').removeClass('remote-label-checked');
+				break;
+			case "remote":
+				$(this).addClass('remote-label-checked');
+				$(this).siblings('.out-label').removeClass('out-label-checked');
+				$(this).siblings('.in-label').removeClass('in-label-checked');
+				break;
+		}
+	});
+
+	get('/api/inout').then(function(st){
+		st.users.forEach(function(el){
+			var newRow = $('<tr>');
+		    newRow.data('empID', el.EmpID);
+
+		    var name = $('<th>');
+		    name.text(el.FirstName);
+		    newRow.append(name);
+
+		    var status = $('<td>');
+
+		    var stsIn = createSpan("In", el.InOffice);
+		    var stsOut = createSpan("Out", el.OutOffice);
+		    var stsRemote = createSpan("Remote", el.Home);
+
+		    status.append(stsIn)
+		    	  .append(stsOut)
+		    	  .append(stsRemote);
+
+		    newRow.append(status);
+
+		    $('#inoutboard').append(newRow);
+		});
+	});
+
+
+
+	function createSpan (stsLabel, status) {
+		var htmlElmnt = $('<span>');
+		htmlElmnt.text(stsLabel);
+		htmlElmnt.addClass(stsLabel.toLowerCase() + "-label");
+
+		if (status) {
+			htmlElmnt.addClass(stsLabel.toLowerCase() + "-label-checked");
+		}
+		return htmlElmnt;
+	}
+
+
+
+
+
+
+	function get(url) {
+	  return new Promise(function(resolve, reject) {
+	    var req = new XMLHttpRequest();
+	    req.open('GET', url);
+
+	    req.onload = function() {
+	      if (req.status == 200) {
+	        // resolve(req.response);
+	        //Attempt to convert response to a JSON object
+	        try {
+	          var d = JSON.parse(req.response);
+	          resolve(d);
+	        }
+	        catch (err){
+	          resolve(req.response);
+	        }
+	      }
+
+	      else {
+	        reject(Error(req.statusText));
+	      }
+	    };
+
+	    //Handle network errors
+	    req.onerror = function() {
+	      reject(Error("Network error"));
+	    };
+
+	    //Make the request
+	    req.send();
+
+	  });
+	}
+</script>

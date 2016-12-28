@@ -7,7 +7,8 @@ get("/api/kitchen")
     return get("/api/inout");
   })
   .then(function(status){
-    processStatusAll(status);
+    // processStatusAll(status);
+    newStatus(status);
     return get("/api/calendar");
   })
   .then(function(cals){
@@ -23,40 +24,87 @@ get("/api/kitchen")
 
 }); 
 
+$('#inoutboard').on('click', 'span', function(){
+    var empID = $(this).parents('tr').data('empID');
+    var label = $(this).attr('class');
+    var clicked = label.substring(0, label.indexOf("-"));
+    updateStatus(empID, clicked);
+
+    switch (clicked) {
+      case "in":
+        $(this).addClass('in-label-checked');
+        $(this).siblings('.out-label').removeClass('out-label-checked');
+        $(this).siblings('.remote-label').removeClass('remote-label-checked');
+        break;
+      case "out":
+        $(this).addClass('out-label-checked');
+        $(this).siblings('.in-label').removeClass('in-label-checked');
+        $(this).siblings('.remote-label').removeClass('remote-label-checked');
+        break;
+      case "remote":
+        $(this).addClass('remote-label-checked');
+        $(this).siblings('.out-label').removeClass('out-label-checked');
+        $(this).siblings('.in-label').removeClass('in-label-checked');
+        break;
+    }
+  });
 
 
 //In-Out event listener
-$('#inoutboard').on('click', 'label', function() {
-  var emp = $(this);
-  var empID = emp.parents('tr').data('empID');
-  var status = emp.parents('tr').data('status');
-  var label = emp.attr('class');
-  var clicked = label.substring(0, label.indexOf("-"));
-  console.log(clicked);
-  udpateStatus(empID, clicked);
+// $('#inoutboard').on('click', 'span', function() {
+//   // var emp = $(this);
+//   // var empID = emp.parents('tr').data('empID');
+//   // var status = emp.parents('tr').data('status');
+//   // var label = emp.attr('class');
+//   // var clicked = label.substring(0, label.indexOf("-"));
+//   // console.log(clicked);
+//   // udpateStatus(empID, clicked);
 
-  switch (clicked){
-    case "in":
-      emp.siblings('.inBox').attr('checked', true);
-      emp.siblings('.outBox').attr('checked', false);
-      emp.siblings('.remoteBox').attr('checked', false);
-      break;
+//   // switch (clicked){
+//   //   case "in":
+//   //     emp.siblings('.inBox').attr('checked', true);
+//   //     emp.siblings('.outBox').attr('checked', false);
+//   //     emp.siblings('.remoteBox').attr('checked', false);
+//   //     break;
 
-    case "out":
-      emp.siblings('.outBox').attr('checked', true);
-      emp.siblings('.inBox').attr('checked', false);
-      emp.siblings('.remoteBox').attr('checked', false);
-      break;
+//   //   case "out":
+//   //     emp.siblings('.outBox').attr('checked', true);
+//   //     emp.siblings('.inBox').attr('checked', false);
+//   //     emp.siblings('.remoteBox').attr('checked', false);
+//   //     break;
 
-    case "home":
-      emp.siblings('.remoteBox').attr('checked', true);
-      emp.siblings('.inBox').attr('checked', false);
-      emp.siblings('.outBox').attr('checked', false);
-      break;
+//   //   case "home":
+//   //     emp.siblings('.remoteBox').attr('checked', true);
+//   //     emp.siblings('.inBox').attr('checked', false);
+//   //     emp.siblings('.outBox').attr('checked', false);
+//   //     break;
 
-  }
+//   // }
+//   console.log($(this));
+//   var empID = $(this).parents('tr').data('empID');
+//   var label = $(this).attr('class');
+//   var clicked = label.substring(0, label.indexOf("-"));
+//   updateStatus(empID, clicked);
 
-});
+//     switch (clicked) {
+//       case "in":
+//         $(this).addClass('in-label-checked');
+//         $(this).siblings('.out-label').removeClass('out-label-checked');
+//         $(this).siblings('.remote-label').removeClass('remote-label-checked');
+//         break;
+//       case "out":
+//         $(this).addClass('out-label-checked');
+//         $(this).siblings('.in-label').removeClass('in-label-checked');
+//         $(this).siblings('.remote-label').removeClass('remote-label-checked');
+//         break;
+//       case "remote":
+//         $(this).addClass('remote-label-checked');
+//         $(this).siblings('.out-label').removeClass('out-label-checked');
+//         $(this).siblings('.in-label').removeClass('in-label-checked');
+//         break;
+//     }
+
+// });
 
 //End In-Out Event Listener
 $('#btnSubmitFormAnn').on('click', function() {
@@ -94,7 +142,7 @@ $('#ulAnn').on('click', '.ann-del', function(){
     });
 });
 
-function udpateStatus (empID, newStatus) {
+function updateStatus (empID, newStatus) {
   $.ajax({
     url: "/api/update/" + empID + "/" + newStatus,
     type: "PUT"
@@ -328,4 +376,45 @@ function put(url, data) {
     req.send(data);
 
   });
+}
+
+
+function newStatus (data) {
+  data.users.forEach(function(el){
+      var newRow = $('<tr>');
+        newRow.data('empID', el.EmpID);
+
+        var name = $('<th>');
+        name.text(el.FirstName);
+
+        var status = $('<td>');
+
+        var stsIn = createSpan("In", el.InOffice);
+        var stsOut = createSpan("Out", el.OutOffice);
+        var stsRemote = createSpan("Remote", el.Home);
+
+        status.append(stsIn)
+            .append(stsOut)
+            .append(stsRemote);
+
+        var extension = $('<td>');
+        extension.text(el.Extension);
+
+        newRow.append(name)
+              .append(status)
+              .append(extension);
+
+        $('#inoutboard').append(newRow);
+    });
+}
+
+function createSpan (stsLabel, status) {
+  var htmlElmnt = $('<span>');
+  htmlElmnt.text(stsLabel);
+  htmlElmnt.addClass(stsLabel.toLowerCase() + "-label");
+
+  if (status) {
+    htmlElmnt.addClass(stsLabel.toLowerCase() + "-label-checked");
+  }
+  return htmlElmnt;
 }
