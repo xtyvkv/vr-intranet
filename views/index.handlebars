@@ -122,13 +122,6 @@
                                 <div class="panel-body h-flush">
  									<!-- Table -->
   									<table class="table table-hover" >
-                                		{{!-- <thead>
-                                    		<tr>
-                                    			<th></th>
-                                        		<th></th>
-                                            	<th>Ext.</th>
-                                    		</tr>
-                                    	</thead> --}}
                                     	<tbody id="inoutboard">
 
                                 		</tbody>
@@ -156,45 +149,10 @@
                 		<div class="col-sm-12">
             				<div class="panel panel-default">
  								<!-- Default panel contents -->
-  								<div class="panel-heading">Calendar <span class="glyphicon glyphicon-calendar ph-icon" aria-hidden="true"></span></div>
+  								<div class="panel-heading">Calendar <button id="btnShowFormCal" class="ph-icon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button></div>
                                 <div class="panel-body">
                                 <div class="row" id="calendar">
-                                {{!-- <div class="col-sm-4">
-                                    	<ul class="list-group">
-  											<li class="list-group-item eventDay">Wednesday 10/05/2016</li> 
-                                            <li class="list-group-item">
-    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
-    												Andrea - CSI3 AM
-  											</li>
-                                            <li class="list-group-item">
-    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
-    											Norma - Home AM/Drs PM
-  											</li>
-										</ul>
-                                </div>
-                                <div class="col-sm-4">
-                                    	<ul class="list-group notToday">
-                                        	<li class="list-group-item eventDay">Thursday 10/06/2016</li> 
-  											<li class="list-group-item">
-    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
-    												Jennifer - Dr AM
-  											</li>
-                                 
-										</ul>
-                                </div>
-                                <div class="col-sm-4">
-                                    	<ul class="list-group notToday">
-                                        	<li class="list-group-item eventDay">Friday 10/07/2016</li> 
-  											<li class="list-group-item">
-    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
-    												Conference Room 11-1pm occupied
-  											</li>
-                                            <li class="list-group-item">
-    											<span class="glyphicon glyphicon-remove removeEvent" aria-hidden="true"></span>
-    												Matt Out
-  											</li>
-										</ul>
-                                </div> --}}
+
                                 </div>
                                  
                                 </div>
@@ -271,7 +229,8 @@
         </div> <!-- End containter row -->
 	</div> <!-- End container -->
 
-
+<div id="mdls">
+<!--Anouncement Modal-->
   <div class="modal fade" id="modalFormAnn">
   <div class="modal-dialog" role="document" id="mdlFa">
     <div class="modal-content">
@@ -283,10 +242,10 @@
       </div>
       <div class="modal-body">
         <form id="formAnn">
-            <div class="form-group">
-{{!--               <label for="txtAnn">Type your announcement below:</label> --}}
-              <input type="text" id="txtAnn" style="width: 100%;">
-              {{!-- <textarea class="form-control"  id="txtAnn"></textarea> --}}
+            <div class="form-group has-danger">
+              {{!-- <label for="txtAnn" class="form-control-label">Text</label> --}}
+              <input type="text" class="form-control form-control-danger" id="txtAnn" name="txtAnn" style="width: 100%;">
+              <small class="form-text text-muted" style="color: white;">This field is required</small>
             </div>
         </form>
       </div>
@@ -300,7 +259,73 @@
 
 
 
+<!--Calendar Modal-->
+
+<div class="modal fade" id="modalFormCal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Add Calendar Entry</h4>
+      </div>
+      <div class="modal-body">
+        
+        <form id="formCal">
+            <div class="form-group">
+              <label for="txtCal">Event</label>
+              <input type="text" id="txtCalendar" class="form-control">
+              <small class="form-text text-muted" style="color: white;">This field is required</small>
+              
+            </div>
+
+            <div class="form-group">
+              <label for="when">Date</label>
+              <small class="form-text text-muted" style="color: white;">This field is required</small>
+              <div class="input-group date" data-provide="datepicker" data-autoclose="true">
+                  <input type="text" class="form-control" id="eventDate" data-date-format="yyyy/mm/dd">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+
+                  
+              </div>
+            </div>
+
+            <div class="form-group" id="fgEndDate">
+              <label for="endDate">End Date</label>
+              {{!-- <input id="endDate" name="endDate" type="date">               --}}
+              <div class="input-group date" data-provide="datepicker" data-autoclose="true">
+                  <input type="text" class="form-control" id="eventEndDate" data-date-format="yyyy/mm/dd">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+                  <small class="form-text text-muted" style="color: white;">This field is required</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="qMultipleDays">Mutiple Days</label>
+              <input type="checkbox" id="qMultipleDays">  
+            </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnSubmitFormCal">Submit</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script type="text/javascript" src="/assets/js/script.js"></script>
 

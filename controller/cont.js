@@ -79,7 +79,7 @@ board.Calendar = function(req, res) {
 	var thisMonday = moment().startOf('week');
 	// console.log(thisMonday);
 	db.connect(config).then(function(){
-		var qry = "SELECT ItemText, ItemDate FROM tblCalendar WHERE ItemDate >= GETDATE() ORDER BY ItemDate ASC";
+		var qry = "SELECT ItemText, ItemDate FROM tblCalendar WHERE ItemDate > GETDATE()-1 ORDER BY ItemDate ASC";
 
 		new db.Request().query(qry).then(function(result){
 			// console.log(result);
@@ -90,6 +90,29 @@ board.Calendar = function(req, res) {
 			res.send("Request to ", req.url, " failed");
 		});
 	});
+}
+
+board.addCalendarEvent = function(req, res) {
+	var newEvent = JSON.parse(req.body.json_string);
+	
+	if(newEvent.multipleDays == false) {
+		var qry = "INSERT INTO tblCalendar (ItemDate, ItemText) VALUES (";
+		qry += "'" + newEvent.eventDate + "'";
+		qry += " , ";
+		qry += "'" + newEvent.text.replace("'", "''") + "'"; //Escape apostrophes
+		qry += ")";
+
+		db.connect(config).then(function(){
+			new db.Request().query(qry).then(function(result){
+				res.send("successfully added new calendar event")
+			}).catch(function(err){
+				console.log(err);
+				res.send("Failed to add the new calendar event");
+			});
+		})
+	}
+	// console.log(newEvent);
+	// res.send('Got the new calendar event');
 }
 
 board.ann = function(req, res) {

@@ -1,3 +1,7 @@
+$('.datepicker').datepicker({
+    format: 'yyyy/mm/dd'
+});
+
 $(document).ready(function(){
 
 //Load data
@@ -49,34 +53,7 @@ $('#inoutboard').on('click', 'span', function(){
     }
   });
 
-// $('#FormAnn').submit(function(event) {
-//   addAnnouncement();
-//   return false;
-// });
-
-$('#btnSubmitFormAnn').on('click', function(){
-  addAnnouncement();
-  return false;
-});
-
-function addAnnouncement() {
-  var newAnn = $('#txtAnn').val().trim();
-  post("/api/ann", "msg=" + newAnn)
-  .then(function(res){
-    console.log(res);
-    return get("/api/ann");
-  })
-  .then(function(anns){
-    printAnn(anns);
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
-
-  resetForm($('#formAnn'));
-  $('#modalFormAnn').modal("hide");
-}
-
+//Toggle Annoucement Modal
 $('#btnShowFormAnn').on('click', function(){
   $('#modalFormAnn').modal('show');
 
@@ -84,6 +61,94 @@ $('#btnShowFormAnn').on('click', function(){
     $('#txtAnn').focus();
   });
   
+});
+
+$('#btnSubmitFormAnn').on('click', function(){
+  if($('#txtAnn').val().length == 0) {
+    $('#txtAnn').siblings('small').css('color', 'red');
+    $('#txtAnn').focus();
+  } else {
+    addAnnouncement();  
+  }
+  
+  return false;
+});
+
+//Toggle Calendar Modal
+$('#btnShowFormCal').on('click', function(){
+  $('#modalFormCal').modal('show');
+  $('#fgEndDate').hide();
+
+  $('#modalFormCal').on('shown.bs.modal', function(){
+    $('#txtCalendar').focus();
+
+    $('#btnSubmitFormCal').on('click', function(){
+      var newCalEvent = {};
+      newCalEvent.text = $('#txtCalendar').val().trim();
+      newCalEvent.eventDate = moment($('#eventDate').val()).format("YYYY/MM/DD");
+
+      if($('#qMultipleDays').prop('checked')) {
+        newCalEvent.multipleDays = true;
+        newCalEvent.evenEndDate = moment($('#eventEndDate').val()).format("YYYY/MM/DD");
+      } else {
+        newCalEvent.multipleDays = false;
+      }
+
+      if(newCalEvent.text.length == 0) {
+        $('#txtCalendar').focus()
+                         .siblings('small').css('color', 'red');
+      } else if(newCalEvent.eventDate.length == 0){
+        $('#eventDate').focus()
+                       .parent().siblings('small').css('color', 'red');
+
+      } else {
+        // console.log(newCalEvent);
+        post('/api/calendar', "json_string=" + JSON.stringify(newCalEvent))
+          .then(function(result){
+            console.log(result);
+            resetForm($('#formCal'));
+            $('#modalFormCal').modal('hide');
+          }).catch(function(err){
+            console.log(err);
+          });
+      }
+      
+      
+    });
+
+  });
+
+
+});
+
+//Event Listener for Calendar submit
+// $('#mdls').on('click', '#btnSubmitFormCal', function() {
+//   var myCal = $('#txtCalendar').val().trim();
+//   var eventDate = $('#when').val();
+//   console.log(myCal, eventDate);
+//   // return false;
+// });
+
+// Event Listener for Calendar Multiple Days
+$('#mdls').on('click', '#qMultipleDays', function(){
+  $('#fgEndDate').toggle();
+  // $('#formCal').append(fgEndDate);
+});
+
+
+
+
+//Delete Announcement
+$('#ulAnn').on('click', '.ann-del', function(){
+  var id = $(this).data('ann-id');
+  put("/api/ann/" + id)
+    .then(function(result){
+      console.log(result);
+      $('#row-ann-' + id).remove();
+
+    }).catch(function(err){
+      console.log(err);
+    });
 });
 
 //On enter key click submit (for modals)
@@ -95,18 +160,6 @@ $(function(){
       return false;
     }
   });
-});
-
-$('#ulAnn').on('click', '.ann-del', function(){
-  var id = $(this).data('ann-id');
-  put("/api/ann/" + id)
-    .then(function(result){
-      console.log(result);
-      $('#row-ann-' + id).remove();
-
-    }).catch(function(err){
-      console.log(err);
-    });
 });
 
 function updateStatus (empID, newStatus) {
@@ -124,7 +177,8 @@ function processCalendar(data){
     var pos = 0;
 
     data.forEach(function(el){
-      var date = moment(el.ItemDate).format("MM/DD");
+      var date = el.ItemDate.substring(el.ItemDate.indexOf('-')+1, el.ItemDate.indexOf('T')).replace("-", "/");
+      // console.log(date);
 
       if(date in tempObj) {
         tempObj[date].items.push(el.ItemText);
@@ -149,7 +203,7 @@ function printCalendar(date, data) {
   var cal = $('#calendar');
 
     var newCol = $('<div>');
-    newCol.addClass('day');
+    newCol.addClass('calDay');
 
     var newUL = $('<ul>');
     newUL.addClass('list-group')
@@ -192,6 +246,24 @@ function printAnn(data) {
     else {
       contAnn.append("<li><h3>No announcements</h3></li>");
     }
+}
+
+function addAnnouncement() {
+  var newAnn = $('#txtAnn').val().trim();
+  post("/api/ann", "msg=" + newAnn)
+  .then(function(res){
+    console.log(res);
+    return get("/api/ann");
+  })
+  .then(function(anns){
+    printAnn(anns);
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
+  resetForm($('#formAnn'));
+  $('#modalFormAnn').modal("hide");
 }
 
 function resetForm($form) {
@@ -315,3 +387,14 @@ function createSpan (stsLabel, status) {
   }
   return htmlElmnt;
 }
+
+//Datepicker options
+$(document).on('ready', function(){
+  $('.datepicker').datepicker({
+    autoclose: true
+  });
+
+  $('.datepicker').datepicker().on('changeDate', function (ev) {
+    $(this).datepicker('hide');
+  });;
+})

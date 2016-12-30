@@ -34,11 +34,6 @@
 
 		/*_________*/
 		
-/*input[type=checkbox] {
-  position: absolute;
-  left: -9999px;
-  display:none;
-}*/
 
 .in-label, .out-label, .remote-label {
   display: inline-block;
@@ -56,12 +51,12 @@
 	
 }
 
-.in-label::before, .out-label::before, .remote-label::before {
+/*.in-label::before, .out-label::before, .remote-label::before {
   content: '';
   display: inline-block;
   position: absolute;
   color: #aaa;
-}
+}*/
 
 .in-label {
 	border-top-right-radius:0;
@@ -80,42 +75,24 @@
 
 }
 
-.in-label:hover, input:focus + .in-label {
+/*.in-label:hover, input:focus + .in-label {
   box-shadow: 0;
-}
+}*/
 
-input:checked + .in-label {
+.in-label-checked { /*test class added by Eliot, */
   background-color: #98BA3C;
   color:#fff;
 }
 
-.in-label-checked { /*test class added by Eliot, delete*/
-  background-color: #98BA3C;
-  color:#fff;
-}
-
-input:checked + .out-label {
+.out-label-checked {/*test class added by Eliot,*/
   background-color: #D41B29;
   color:#fff;
 }
 
-.out-label-checked {/*test class added by Eliot, delete*/
-  background-color: #D41B29;
-  color:#fff;
-}
 
-input:checked + .remote-label {
+.remote-label-checked {/*test class added by Eliot*/
   background-color: #1693A5;
   color:#fff;
-}
-
-.remote-label-checked {/*test class added by Eliot, delete*/
-  background-color: #1693A5;
-  color:#fff;
-}
-
-input:checked + .in-label::before {
-  background-color: #fff;
 }
 
 /*_____________________________ Buttons (General) */
@@ -127,7 +104,7 @@ button:focus {
 
 /*_____________________________ Tables (General) */
 
-tbody {
+/*tbody {
     display: table-row-group;
     vertical-align: middle;
     border-color: inherit;
@@ -135,7 +112,7 @@ tbody {
 
 .table>tbody>tr>th {
 	padding-left:15px;
-}
+}*/
 
 /*_____________________________ TBA */
 
@@ -381,13 +358,13 @@ a.goto {
 }
 
 /****************/
-.day {
+.calDay {
   width: 30%;
   margin: 10px;
   display: inline-flex;
 }
 
-.day > ul {
+.calDay > ul {
   width: 100%;
 }
 
