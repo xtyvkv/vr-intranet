@@ -372,6 +372,10 @@ a.goto {
   float: right;
 }
 
+.del-cal-item {
+	float: right;
+}
+
 @media (max-width: 767px) {
 .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
     color: #fff;

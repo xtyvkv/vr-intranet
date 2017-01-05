@@ -21,8 +21,8 @@ app.get('/', function(req, res) {
 	res.render("index");
 });
 
-app.get('/in', function(req, res) {
-	res.render("in");
+app.get('/cal', function(req, res) {
+	res.render("calendar");
 });
 
 app.use('/assets', express.static('assets'));

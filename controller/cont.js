@@ -3,6 +3,9 @@ var db = require('mssql');
 var config = require('../config/config.js');
 
 var moment = require('moment');
+require('moment-range');
+
+var request = require('request');
 
 var board = {}
 
@@ -24,7 +27,6 @@ board.retrieveInOut = function(req, res) {
 			res.send("Request to ", req.url, " failed");
 		});
 	});
-
 }
 
 board.updateStatus = function(req, res, empID, newStatus) {
@@ -79,7 +81,7 @@ board.Calendar = function(req, res) {
 	var thisMonday = moment().startOf('week');
 	// console.log(thisMonday);
 	db.connect(config).then(function(){
-		var qry = "SELECT ItemText, ItemDate FROM tblCalendar WHERE ItemDate > GETDATE()-1 ORDER BY ItemDate ASC";
+		var qry = "SELECT ItemID, ItemText, ItemDate FROM tblCalendar WHERE ItemDate > GETDATE()-1 AND deleted=0 ORDER BY ItemDate ASC";
 
 		new db.Request().query(qry).then(function(result){
 			// console.log(result);
@@ -96,23 +98,56 @@ board.addCalendarEvent = function(req, res) {
 	var newEvent = JSON.parse(req.body.json_string);
 	
 	if(newEvent.multipleDays == false) {
-		var qry = "INSERT INTO tblCalendar (ItemDate, ItemText) VALUES (";
-		qry += "'" + newEvent.eventDate + "'";
-		qry += " , ";
-		qry += "'" + newEvent.text.replace("'", "''") + "'"; //Escape apostrophes
-		qry += ")";
+		insertCalItem(newEvent.text, newEvent.eventDate, res);
+	} else {
+		// console.log(newEvent);
+		var weekdays = [];
+		var start = newEvent.eventDate;
+		var end = newEvent.eventEndDate;
+		var range = moment.range(start, end);
+		range.toArray('days').forEach(function(el){
+			//Filter out weekends
+			if(el.weekday() != 0 && el.weekday() != 6 ) {
+				weekdays.push(el);
+			}
+		});
+
+		var longQuery = "";
+
+		weekdays.forEach(function(el){
+			// console.log(newEvent.text, el.format());
+			var qry = "INSERT INTO tblCalendar (ItemDate, ItemText) VALUES (";
+				qry += "'" + el.format("YYYY-MM-DD") + "'";
+				qry += " , ";
+				qry += "'" + newEvent.text.replace("'", "''") + "'"; //Escape apostrophes
+				qry += ");";
+
+			longQuery += qry;
+		});
 
 		db.connect(config).then(function(){
-			new db.Request().query(qry).then(function(result){
-				res.send("successfully added new calendar event")
+			new db.Request().query(longQuery).then(function(result){
+				res ? res.send("successfully added new calendar event") : console.log('')
 			}).catch(function(err){
 				console.log(err);
-				res.send("Failed to add the new calendar event");
+				res ? res.send("Failed to add the new calendar event") : console.log('');
 			});
 		})
 	}
-	// console.log(newEvent);
-	// res.send('Got the new calendar event');
+}
+
+board.delCalendarEvent = function(req, res) {
+	var qry = "UPDATE tblCalendar SET deleted=1 WHERE ItemID=" + req.params.id;
+	db.connect(config).then(function(){
+
+		new db.Request().query(qry).then(function(result){
+			res.send("successfully deleted calendar event");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("failed to delete calendar event");
+		});
+	});
 }
 
 board.ann = function(req, res) {
@@ -152,7 +187,7 @@ board.annDel = function(req, res) {
 	db.connect(config).then(function(){
 
 		new db.Request().query(qry).then(function(result){
-			res.send("successfully deleted announcement");
+			rres.send("successfully deleted announcement");
 		})
 		.catch(function(err){
 			console.log(err);
@@ -161,6 +196,12 @@ board.annDel = function(req, res) {
 	});
 }
 
+board.projects = function(req, res) {
+	request('http://vrcentral/betas/dpu/api/all.php', function(err, response, body){
+		res.send(JSON.stringify(body));
+	});
+};
+
 //Catch DB connectivity Errors
 
 db.on('error', function(err) {
@@ -168,6 +209,24 @@ db.on('error', function(err) {
 		console.log(err);
 	}
 });
+
+
+function insertCalItem(event, date, res) {
+	var qry = "INSERT INTO tblCalendar (ItemDate, ItemText) VALUES (";
+		qry += "'" + date + "'";
+		qry += " , ";
+		qry += "'" + event.replace("'", "''") + "'"; //Escape apostrophes
+		qry += ")";
+
+		db.connect(config).then(function(){
+			new db.Request().query(qry).then(function(result){
+				res ? res.send("successfully added new calendar event") : console.log('')
+			}).catch(function(err){
+				console.log(err);
+				res ? res.send("Failed to add the new calendar event") : console.log('');
+			});
+		})
+}
 
 // module.exports = retrieveInOut;
 

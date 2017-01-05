@@ -32,6 +32,10 @@ router.post('/calendar', function(req, res) {
   board.addCalendarEvent(req, res);
 });
 
+router.put('/calendar/:id', function(req, res){
+  board.delCalendarEvent(req, res);
+});
+
 router.get('/ann', function(req, res) {
   board.ann(req, res);
 });
@@ -44,6 +48,9 @@ router.put('/ann/:id', function(req, res) {
   board.annDel(req, res)
 });
 
+router.get('/projects', function(req, res){
+  board.projects(req, res);
+});
 
 module.exports = router;
 

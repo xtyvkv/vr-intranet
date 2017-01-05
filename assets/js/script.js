@@ -1,6 +1,4 @@
-$('.datepicker').datepicker({
-    format: 'yyyy/mm/dd'
-});
+
 
 $(document).ready(function(){
 
@@ -21,6 +19,11 @@ get("/api/kitchen")
   })
   .then(function(anns) {
     printAnn(anns);
+    return get("/api/projects")
+  })
+  .then(function(projs){
+    // console.log(typeof(projs));
+    printProjects(JSON.parse(projs));
   })
   .catch(function(err){
     console.log(err)
@@ -81,53 +84,48 @@ $('#btnShowFormCal').on('click', function(){
 
   $('#modalFormCal').on('shown.bs.modal', function(){
     $('#txtCalendar').focus();
-
-    $('#btnSubmitFormCal').on('click', function(){
-      var newCalEvent = {};
-      newCalEvent.text = $('#txtCalendar').val().trim();
-      newCalEvent.eventDate = moment($('#eventDate').val()).format("YYYY/MM/DD");
-
-      if($('#qMultipleDays').prop('checked')) {
-        newCalEvent.multipleDays = true;
-        newCalEvent.evenEndDate = moment($('#eventEndDate').val()).format("YYYY/MM/DD");
-      } else {
-        newCalEvent.multipleDays = false;
-      }
-
-      if(newCalEvent.text.length == 0) {
-        $('#txtCalendar').focus()
-                         .siblings('small').css('color', 'red');
-      } else if(newCalEvent.eventDate.length == 0){
-        $('#eventDate').focus()
-                       .parent().siblings('small').css('color', 'red');
-
-      } else {
-        // console.log(newCalEvent);
-        post('/api/calendar', "json_string=" + JSON.stringify(newCalEvent))
-          .then(function(result){
-            console.log(result);
-            resetForm($('#formCal'));
-            $('#modalFormCal').modal('hide');
-          }).catch(function(err){
-            console.log(err);
-          });
-      }
-      
-      
-    });
-
   });
 
 
 });
 
-//Event Listener for Calendar submit
-// $('#mdls').on('click', '#btnSubmitFormCal', function() {
-//   var myCal = $('#txtCalendar').val().trim();
-//   var eventDate = $('#when').val();
-//   console.log(myCal, eventDate);
-//   // return false;
-// });
+$('#btnSubmitFormCal').on('click', function(){
+  var newCalEvent = {};
+  newCalEvent.text = $('#txtCalendar').val().trim();
+  newCalEvent.eventDate = moment($('#eventDate').val()).format();
+  newCalEvent.eventDate = $('#eventDate').val();
+
+  if($('#qMultipleDays').prop('checked')) {
+    newCalEvent.multipleDays = true;
+    newCalEvent.eventEndDate = moment($('#eventEndDate').val()).format();
+    // newCalEvent.evenEndDate = $('#eventEndDate').val();
+  } else {
+    newCalEvent.multipleDays = false;
+  }
+
+  if(newCalEvent.text.length == 0) {
+    $('#txtCalendar').focus()
+                     .siblings('small').css('color', 'red');
+  } else if(newCalEvent.eventDate.length == 0){
+    $('#eventDate').focus()
+                   .parent().siblings('small').css('color', 'red');
+
+  } else {
+    console.log(newCalEvent);
+    post('/api/calendar', "json_string=" + JSON.stringify(newCalEvent))
+      .then(function(result){
+        console.log(result);
+        resetForm($('#formCal'));
+        $('#modalFormCal').modal('hide');
+        return get("/api/calendar");
+      })
+      .then(function(cals){
+        processCalendar(cals);
+      }).catch(function(err){
+        console.log(err);
+      });
+  } 
+});
 
 // Event Listener for Calendar Multiple Days
 $('#mdls').on('click', '#qMultipleDays', function(){
@@ -135,7 +133,20 @@ $('#mdls').on('click', '#qMultipleDays', function(){
   // $('#formCal').append(fgEndDate);
 });
 
+//Delete Calendar Item
 
+$('#calendar').on('click', '.del-cal-item', function(){
+  var id = $(this).data('event-id');
+  var self = $(this);
+  put("/api/calendar/" + id)
+    .then(function(result){
+      console.log(result);
+      self.parent().remove();
+    })
+    .catch(function(err){
+      console.log(err)
+    });
+});
 
 
 //Delete Announcement
@@ -173,6 +184,7 @@ function updateStatus (empID, newStatus) {
 
 
 function processCalendar(data){
+    $('#calendar').empty();
     var tempObj = {};
     var pos = 0;
 
@@ -181,13 +193,13 @@ function processCalendar(data){
       // console.log(date);
 
       if(date in tempObj) {
-        tempObj[date].items.push(el.ItemText);
+        tempObj[date].items.push(el);
       } else {
         tempObj[date] = {};
         tempObj[date].column = pos;
         pos++;
         tempObj[date].items = [];
-        tempObj[date].items.push(el.ItemText);
+        tempObj[date].items.push(el);
       }
 
     });
@@ -212,7 +224,12 @@ function printCalendar(date, data) {
     data.forEach(function(el) {
       var newLI = $('<li>');
       newLI.addClass('list-group-item')
-      newLI.text(el);
+      newLI.text(el.ItemText);
+      var newBtn= $('<button>');
+      newBtn.attr('data-event-id', el.ItemID);
+      newBtn.addClass('btn btn-default btn-xs del-cal-item')
+      newBtn.append('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+      newLI.append(newBtn);
       newUL.append(newLI);
     });
 
@@ -233,9 +250,9 @@ function printAnn(data) {
         newRow.text(el.text);
 
         var newBtn = $('<button>');
-        newBtn.text('X');
+        newBtn.append('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
         newBtn.data('ann-id', el.id);
-        newBtn.addClass('ann-del');
+        newBtn.addClass('btn btn-default btn-xs ann-del');
         newRow.append(newBtn);
 
         contAnn.append(newRow);
@@ -267,9 +284,11 @@ function addAnnouncement() {
 }
 
 function resetForm($form) {
-    $form.find('input:text, input:password, input:file, select, textarea').val('');
+    $form.find('input:text, input:password, input:file, select, textarea ').val('');
+    $form.find('input[type=date]').val("mm/dd/yyyy");
     $form.find('input:radio, input:checkbox')
-         .removeAttr('checked').removeAttr('selected')
+         .removeAttr('checked')
+         .removeAttr('selected')
          .prop('checked', false);
 }
 
@@ -386,6 +405,28 @@ function createSpan (stsLabel, status) {
     htmlElmnt.addClass(stsLabel.toLowerCase() + "-label-checked");
   }
   return htmlElmnt;
+}
+
+function printProjects (data) {
+  data.forEach(function(el){
+    var newRow = $('<tr>');
+
+    var projName = $('<td>');
+    projName.text(el["projectName"]);
+
+    var projOwner = $('<td>');
+    projOwner.text(el["projectOwner"]);
+
+    var secondContact = $('<td>');
+    secondContact.text(' ');
+
+    newRow.append(projName)
+          .append(projOwner)
+          .append(secondContact);
+
+    $('#callRouting').append(newRow);
+
+  });
 }
 
 //Datepicker options

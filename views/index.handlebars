@@ -1,11 +1,11 @@
 <div class="container" style="margin-top:20px;">
-    	<div class="alert alert-warning alert-dismissible tsheets" role="alert" id="cool">
+    	{{!-- <div class="alert alert-warning alert-dismissible tsheets" role="alert" id="cool">
   			<button type="button" class="close xout" data-dismiss="alert" aria-label="Close">
             	<span aria-hidden="true">&times;</span>
             </button>
   			<strong>Reminder!</strong> Timesheets are due by the end of the day. <a href="https://vitalresearch.tsheets.com/" class="goto" target="_blank">Go to T-Sheets <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> </a>
-		</div>
-		<div class="jumbotron">
+		</div> --}}
+{{!-- 		<div class="jumbotron">
         	<div class="row" style="position:relative">
             	<div class="col-xs-12 col-sm-6">
 					<img src="/assets/img/VR-logo.png" alt="Vital Research - Expect New Insights" style="width:100%;max-width:500px;">
@@ -110,7 +110,7 @@
     			</div><!-- /.navbar-collapse -->
   			</div><!-- /.container-fluid -->
 		</nav>
-	</div> <!-- End nav bar container -->
+	</div> <!-- End nav bar container --> --}}
 	<div class="container">
     	<div class="row"> <!-- Begin container row -->
         	<div class="col-sm-12 col-lg-4"> <!-- Begin left column -->
@@ -158,6 +158,19 @@
                                 </div>
                             </div>
            	 			</div>
+                  <div class="col-sm-12">
+                  <div class="panel panel-default">
+                <!-- Default panel contents -->
+                  <div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" {{!-- data-toggle="modal" data-target="#modalFormAnn" --}}><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
+                                <div class="panel-body">
+                
+                                        <p>
+                                          <ul class="list-group" id="ulAnn">
+                      </ul>
+                    </p>
+                                </div> <!-- End panel body -->
+                            </div>
+            </div>
                 		<div class="col-sm-12">
                 		  <div class="panel panel-default">
                 		    <!-- Default panel contents -->
@@ -168,14 +181,14 @@
 							<thead>
 								<tr>
                                     <th>Project Name</th>
-                                    <th></th>
-                                    <th>First Person</th>
-                                    <th></th>
-                                    <th>Second Person</th>
+                                    {{!-- <th></th> --}}
+                                    <th>Primary Contact</th>
+                                    {{!-- <th></th> --}}
+                                    <th>Secondary Contact</th>
                                 </tr>
 						</thead>
-                            <tbody>
-                              	<tr>
+                            <tbody id="callRouting">
+                              	{{!-- <tr>
                                 	<td>Project Name <a href="#" data-toggle="tooltip" data-placement="top" title="Project description."><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></a></td>
                                     <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
                                     <td>First Person</td>
@@ -188,7 +201,7 @@
                                     <td>First Person</td>
                                     <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="opacity:0.25;font-size:12px;"></span></td>
                                     <td>Second Person</td>
-                                </tr>
+                                </tr> --}}
                              </tbody>
                               </table>
               		      </div>
@@ -196,21 +209,9 @@
               		  </div>
         			</div> <!-- End row -->
 					<div class="row">
-						<div class="col-sm-12">
-           				<div class="panel panel-default">
- 								<!-- Default panel contents -->
-  								<div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" {{!-- data-toggle="modal" data-target="#modalFormAnn" --}}><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
-                                <div class="panel-body">
-    						
-                                        <p>
-                                        	<ul class="list-group" id="ulAnn">
-											</ul>
-										</p>
-                                </div> <!-- End panel body -->
-                            </div>
-						</div>
+						
 					</div> <!-- End row -->
-        			<div class="row">
+        			{{!-- <div class="row">
         				<div class="col-sm-12">
             				<div class="panel panel-default">
  								<!-- Default panel contents -->
@@ -224,7 +225,7 @@
                                </div>
                             </div>
             			</div>
-        			</div> <!-- End row -->
+        			</div> <!-- End row --> --}}
             </div> <!-- End right column -->
         </div> <!-- End containter row -->
 	</div> <!-- End container -->
@@ -283,8 +284,8 @@
             <div class="form-group">
               <label for="when">Date</label>
               <small class="form-text text-muted" style="color: white;">This field is required</small>
-              <div class="input-group date" data-provide="datepicker" data-autoclose="true">
-                  <input type="text" class="form-control" id="eventDate" data-date-format="yyyy/mm/dd">
+              <div class="input-group" >
+                  <input type="date" class="form-control" id="eventDate">
                   <div class="input-group-addon">
                       <span class="glyphicon glyphicon-th"></span>
                   </div>
@@ -295,13 +296,14 @@
 
             <div class="form-group" id="fgEndDate">
               <label for="endDate">End Date</label>
+              <small class="form-text text-muted" style="color: white;">This field is required</small>
               {{!-- <input id="endDate" name="endDate" type="date">               --}}
-              <div class="input-group date" data-provide="datepicker" data-autoclose="true">
-                  <input type="text" class="form-control" id="eventEndDate" data-date-format="yyyy/mm/dd">
+              <div class="input-group">
+                  <input type="date" class="form-control" id="eventEndDate">
                   <div class="input-group-addon">
                       <span class="glyphicon glyphicon-th"></span>
                   </div>
-                  <small class="form-text text-muted" style="color: white;">This field is required</small>
+                  
               </div>
             </div>
 
@@ -323,9 +325,10 @@
 </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+    
     <script type="text/javascript" src="/assets/js/script.js"></script>
 
