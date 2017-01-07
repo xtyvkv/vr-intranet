@@ -187,7 +187,7 @@ board.annDel = function(req, res) {
 	db.connect(config).then(function(){
 
 		new db.Request().query(qry).then(function(result){
-			rres.send("successfully deleted announcement");
+			res.send("successfully deleted announcement");
 		})
 		.catch(function(err){
 			console.log(err);
