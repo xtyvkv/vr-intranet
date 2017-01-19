@@ -353,15 +353,15 @@ a.goto {
 }
 
 #calendar {
-  height: 25em;
+  max-height: 100vh;
   overflow: auto;
 }
 
 /****************/
 .calDay {
-  width: 30%;
+  width: 95%;
   margin: 10px;
-  display: inline-flex;
+  /*display: inline-flex;*/
 }
 
 .calDay > ul {

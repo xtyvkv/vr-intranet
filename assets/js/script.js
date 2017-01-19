@@ -1,25 +1,25 @@
-
+var baseURL = "/api/";
 
 $(document).ready(function(){
 
 //Load data
-get("/api/kitchen")
+get(baseURL + "kitchen")
   .then(function(kd){
     $('#kd').text(kd);
-    return get("/api/inout");
+    return get(baseURL + "inout");
   })
   .then(function(status){
     // processStatusAll(status);
     newStatus(status);
-    return get("/api/calendar");
+    return get(baseURL + "calendar");
   })
   .then(function(cals){
     processCalendar(cals);
-    return get("/api/ann");
+    return get(baseURL + "ann");
   })
   .then(function(anns) {
     printAnn(anns);
-    return get("/api/projects")
+    return get(baseURL + "projects")
   })
   .then(function(projs){
     // console.log(typeof(projs));
@@ -117,7 +117,7 @@ $('#btnSubmitFormCal').on('click', function(){
         console.log(result);
         resetForm($('#formCal'));
         $('#modalFormCal').modal('hide');
-        return get("/api/calendar");
+        return get(baseURL + "calendar");
       })
       .then(function(cals){
         processCalendar(cals);
@@ -138,7 +138,7 @@ $('#mdls').on('click', '#qMultipleDays', function(){
 $('#calendar').on('click', '.del-cal-item', function(){
   var id = $(this).data('event-id');
   var self = $(this);
-  put("/api/calendar/" + id)
+  put(baseURL + "calendar/" + id)
     .then(function(result){
       console.log(result);
       self.parent().remove();
@@ -152,7 +152,7 @@ $('#calendar').on('click', '.del-cal-item', function(){
 //Delete Announcement
 $('#ulAnn').on('click', '.ann-del', function(){
   var id = $(this).data('ann-id');
-  put("/api/ann/" + id)
+  put(baseURL + "ann/" + id)
     .then(function(result){
       console.log(result);
       $('#row-ann-' + id).remove();
@@ -175,7 +175,7 @@ $(function(){
 
 function updateStatus (empID, newStatus) {
   $.ajax({
-    url: "/api/update/" + empID + "/" + newStatus,
+    url: baseURL + "update/" + empID + "/" + newStatus,
     type: "PUT"
   }).done(function(result) {
     console.log(result);
@@ -189,7 +189,8 @@ function processCalendar(data){
     var pos = 0;
 
     data.forEach(function(el){
-      var date = el.ItemDate.substring(el.ItemDate.indexOf('-')+1, el.ItemDate.indexOf('T')).replace("-", "/");
+      // var date = el.ItemDate.substring(el.ItemDate.indexOf('-')+1, el.ItemDate.indexOf('T')).replace("-", "/");
+      var date = moment(el.ItemDate).format("dddd MM/DD");
       // console.log(date);
 
       if(date in tempObj) {
@@ -261,16 +262,16 @@ function printAnn(data) {
     } 
 
     else {
-      contAnn.append("<li><h3>No announcements</h3></li>");
+      contAnn.append("<li class='list-group-item'>No announcements</li>");
     }
 }
 
 function addAnnouncement() {
   var newAnn = $('#txtAnn').val().trim();
-  post("/api/ann", "msg=" + newAnn)
+  post(baseURL + "ann", "msg=" + newAnn)
   .then(function(res){
     console.log(res);
-    return get("/api/ann");
+    return get(baseURL + "ann");
   })
   .then(function(anns){
     printAnn(anns);
