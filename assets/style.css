@@ -1,6 +1,10 @@
 /* @charset "utf-8"; */
 /* CSS Document */
 
+.container {
+	width: 100%;
+}
+
 /*_____________________________ In/Out Board Status Buttons */
 
 .btn-in, .btn-out, .btn-remote {
@@ -375,6 +379,46 @@ a.goto {
 .del-cal-item {
 	float: right;
 }
+
+/*********************/
+.admin, .dpu {
+	background-color:rgba(0,0,0,0.05);
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+.workload {
+	margin-left: 1em;
+	width: 6em;
+	color: #fff;
+}
+
+.light {
+	background-color:#98BA3C;
+}
+
+.mod {
+	background-color:#1693A5;
+}
+
+.heavy {
+	background-color:#D41B29;
+}
+
+.removeEvent {
+	float:right;
+	line-height:18px;
+	opacity:0.25;
+	-webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #fff;
+}
+
+.removeEvent:hover {
+	opacity:.7;
+	color:#D41B29;
+}
+
+/*********************/
 
 @media (max-width: 767px) {
 .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {

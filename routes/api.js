@@ -52,5 +52,13 @@ router.get('/projects', function(req, res){
   board.projects(req, res);
 });
 
+router.get('/workloads', function(req,res){
+  board.workloads(req, res);
+});
+
+router.put('/workloads/:dept/:status', function(req, res){
+  board.updateWorkload(req, res);
+});
+
 module.exports = router;
 

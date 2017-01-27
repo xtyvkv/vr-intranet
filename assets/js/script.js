@@ -1,15 +1,18 @@
 var baseURL = "/api/";
 
 $(document).ready(function(){
+  init();
+  setInterval(function(){ init() }, 1000 * 60);
+}); 
 
-//Load data
+function init() {
+  //Load data
 get(baseURL + "kitchen")
   .then(function(kd){
     $('#kd').text(kd);
     return get(baseURL + "inout");
   })
   .then(function(status){
-    // processStatusAll(status);
     newStatus(status);
     return get(baseURL + "calendar");
   })
@@ -22,14 +25,16 @@ get(baseURL + "kitchen")
     return get(baseURL + "projects")
   })
   .then(function(projs){
-    // console.log(typeof(projs));
     printProjects(JSON.parse(projs));
+    return get(baseURL + "workloads")
+  })
+  .then(function(workloads){
+    printWorkloads(workloads);
   })
   .catch(function(err){
     console.log(err)
   });
-
-}); 
+}
 
 $('#inoutboard').on('click', 'span', function(){
     var empID = $(this).parents('tr').data('empID');
@@ -190,7 +195,7 @@ function processCalendar(data){
 
     data.forEach(function(el){
       // var date = el.ItemDate.substring(el.ItemDate.indexOf('-')+1, el.ItemDate.indexOf('T')).replace("-", "/");
-      var date = moment(el.ItemDate).format("dddd MM/DD");
+      var date = moment(el.ItemDate).add(1, 'days').format("dddd MM/DD"); //Moment js calculates time one day behind
       // console.log(date);
 
       if(date in tempObj) {
@@ -226,11 +231,13 @@ function printCalendar(date, data) {
       var newLI = $('<li>');
       newLI.addClass('list-group-item')
       newLI.text(el.ItemText);
-      var newBtn= $('<button>');
-      newBtn.attr('data-event-id', el.ItemID);
-      newBtn.addClass('btn btn-default btn-xs del-cal-item')
-      newBtn.append('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
-      newLI.append(newBtn);
+
+      var ex = $('<span>');
+      ex.attr('data-event-id', el.ItemID);
+      ex.attr('aria-hidden', 'true');
+      ex.addClass('glyphicon glyphicon-remove removeEvent del-cal-item');
+      newLI.append(ex);
+
       newUL.append(newLI);
     });
 
@@ -261,9 +268,9 @@ function printAnn(data) {
 
     } 
 
-    else {
-      contAnn.append("<li class='list-group-item'>No announcements</li>");
-    }
+    // else {
+    //   contAnn.append("<li class='list-group-item'>No announcements</li>");
+    // }
 }
 
 function addAnnouncement() {
@@ -369,6 +376,7 @@ function put(url, data) {
 
 
 function newStatus (data) {
+  $('#inoutboard').empty();
   data.users.forEach(function(el){
       var newRow = $('<tr>');
         newRow.data('empID', el.EmpID);
@@ -409,6 +417,7 @@ function createSpan (stsLabel, status) {
 }
 
 function printProjects (data) {
+  $('#callRouting').empty();
   data.forEach(function(el){
     var newRow = $('<tr>');
 
@@ -428,6 +437,8 @@ function printProjects (data) {
     $('#callRouting').append(newRow);
 
   });
+
+  $('#datatable-call-routing').DataTable();
 }
 
 //Datepicker options
@@ -440,3 +451,61 @@ $(document).on('ready', function(){
     $(this).datepicker('hide');
   });;
 })
+
+
+/********************/
+/***** Workload *****/
+$('.workload').on('click', function(){
+  var self = $(this);
+  console.log(self.parent().data('entity'));
+  var status = self.parent().data('status');
+  toggleWorkload(self, status);
+});
+
+function toggleWorkload (elmnt, status) {
+  switch(status) {
+    case 'light':
+      elmnt.text('Moderate');
+      elmnt.parent().data('status', 'moderate');
+      elmnt.attr('class', 'btn workload mod');
+      break;
+    case 'moderate':
+      elmnt.text('Heavy');
+      elmnt.parent().data('status', 'heavy');
+      elmnt.attr('class', 'btn workload heavy');
+      break;
+    default:
+      elmnt.text('Light');
+      elmnt.parent().data('status', 'light');
+      elmnt.attr('class', 'btn workload light');
+      break;
+  }
+}
+
+function printWorkloads(data) {
+  data.forEach(function(el){
+    var btn = $("#btn-"+ el.dept);
+    switch (el.status){
+      case 0:
+        btn.text('...');
+        break;
+      case 1:
+        btn.text('Light');
+        btn.parent().data('status', 'light');
+        btn.attr('class', 'btn workload light');
+        break;
+      case 2:
+        btn.text('Moderate');
+        btn.parent().data('status', 'moderate');
+        btn.attr('class', 'btn workload mod');
+        break;
+      case 3:
+        btn.text('Heavy');
+        btn.parent().data('status', 'heavy');
+        btn.attr('class', 'btn workload heavy');
+        break;
+    }
+  });
+}
+
+/***** End Workload *****/

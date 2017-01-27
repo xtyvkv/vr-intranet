@@ -202,6 +202,34 @@ board.projects = function(req, res) {
 	});
 };
 
+board.workloads = function(req, res){
+	var qry = "SELECT dept, status FROM tblWorkload";
+
+	db.connect(config).then(function(){
+		new db.Request().query(qry).then(function(result){
+			res.send(result);
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("unable to get workloads");
+		});
+	});
+};
+
+board.updateWorkload = function(req, res) {
+	var qry = "UPDATE tblWorkload SET status=" + req.params.status + " WHERE dept='" + req.params.dept + "'";
+
+	db.connect(config).then(function(){
+		new db.Request().query(qry).then(function(result){
+			res.send("update workload status");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("unable to update workloads");
+		});
+	})
+};
+
 //Catch DB connectivity Errors
 
 db.on('error', function(err) {
@@ -227,6 +255,7 @@ function insertCalItem(event, date, res) {
 			});
 		})
 }
+
 
 // module.exports = retrieveInOut;
 
