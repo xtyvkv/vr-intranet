@@ -369,7 +369,11 @@ function put(url, data) {
       reject(Error("Network error: \n", err));
     });
 
-    req.send(data);
+    if (data) {
+      req.send(data);
+    } else {
+      req.send();
+    }
 
   });
 }
@@ -457,7 +461,6 @@ $(document).on('ready', function(){
 /***** Workload *****/
 $('.workload').on('click', function(){
   var self = $(this);
-  console.log(self.parent().data('entity'));
   var status = self.parent().data('status');
   toggleWorkload(self, status);
 });
@@ -468,16 +471,22 @@ function toggleWorkload (elmnt, status) {
       elmnt.text('Moderate');
       elmnt.parent().data('status', 'moderate');
       elmnt.attr('class', 'btn workload mod');
+      var put_url = baseURL + "workloads/" + elmnt.parent().data('entity') + "/" + "2";
+      put(put_url).then(function(result){console.log(result)});
       break;
     case 'moderate':
       elmnt.text('Heavy');
       elmnt.parent().data('status', 'heavy');
       elmnt.attr('class', 'btn workload heavy');
+      var put_url = baseURL + "workloads/" + elmnt.parent().data('entity') + "/" + "3";
+      put(put_url).then(function(result){console.log(result)});
       break;
     default:
       elmnt.text('Light');
       elmnt.parent().data('status', 'light');
       elmnt.attr('class', 'btn workload light');
+      var put_url = baseURL + "workloads/" + elmnt.parent().data('entity') + "/" + "1";
+      put(put_url).then(function(result){console.log(result)});
       break;
   }
 }
