@@ -29,6 +29,11 @@ app.use('/assets', express.static('assets'));
 
 app.use('/api', api);
 
+app.get('/nl', function(req, res) {
+	// res.send('hello')
+	res.render('newlayout')
+});
+
 
 app.listen(8180, function () {
 	console.log("App running on port 8180");

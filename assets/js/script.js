@@ -383,6 +383,7 @@ function newStatus (data) {
   $('#inoutboard').empty();
   data.users.forEach(function(el){
       var newRow = $('<tr>');
+      newRow.addClass('iob-row')
         newRow.data('empID', el.EmpID);
 
         var name = $('<th>');
@@ -408,6 +409,38 @@ function newStatus (data) {
         $('#inoutboard').append(newRow);
     });
 }
+
+// function newStatus(data) {
+//   $('#inoutboard').empty();
+//   data.users.forEach(function(el){
+//     var newLi = $('<li>');
+
+//     newLi.data('empID', el.EmpID);
+//     var empName = $('<span>');
+//     empName.text(el.FirstName);
+
+//     var status = $('<span>');
+//     status.addClass('stsFixed')
+
+//     var stsIn = createSpan("In", el.InOffice);
+//     var stsOut = createSpan("Out", el.OutOffice);
+//     var stsRemote = createSpan("Remote", el.Home);
+
+//     status.append(stsIn)
+//           .append(stsOut)
+//           .append(stsRemote);
+
+//     newLi.append(empName)
+//          .append(status)
+//          .append(el.Extension)
+//          .addClass('list-group-item');
+
+//     $('#inoutboard').append(newLi);
+
+
+
+//   });
+// }
 
 function createSpan (stsLabel, status) {
   var htmlElmnt = $('<span>');
