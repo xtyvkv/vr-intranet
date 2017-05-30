@@ -1,157 +1,158 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-<div class="container" style="margin-top:20px;">
+<link rel="stylesheet" href="/assets/style.css">
 
-	<div class="container">
-      
-    	<div class="row"> <!-- Begin container row -->
-        	<div class="col-sm-12 col-lg-4"> <!-- Begin left column -->
-            	    <div class="row">
-        				<div class="col-sm-12">
-                			<div class="panel panel-default">
- 								<!-- Default panel contents -->
-  								<div class="panel-heading">In/Out Board <span class="glyphicon glyphicon-user ph-icon" aria-hidden="true"></span></div>
-                                <div class="panel-body h-flush">
- 									<!-- Table -->
-  									<table class="table table-hover" >
-                                    	<tbody id="inoutboard">
+<style>
+.dataTables_paginate {
+    width: 100%;
+}
 
-                                		</tbody>
-									</table>
-                            	</div> <!-- End panel body -->
-							</div> <!-- End in/out panel -->
-            			</div>
-                     </div> <!-- End row -->
-                     <div class="row">
-        				<div class="col-sm-12">
-                        	
-                        </div>
-                     </div>
-            </div> <!-- End left column -->
+</style>
+<div class="container">
+	<div clas="row">
+		<div class="col-lg-8"> <!-- LEFT COLUMN -->
+			<div class="panel panel-default" >
+				<!-- Default panel contents -->
+				<div class="panel-heading" >
+					In/Out Board <span class="glyphicon glyphicon-user ph-icon" aria-hidden="true"></span>
+				</div>
 
-            <div class="col-sm-12 col-md-12 col-lg-5">
-              
-                    <div class="panel panel-default">
+				<div class="panel-body" id="iob-body">
+					<!-- Table -->
+					<table class="table table-hover tighten" >
+					<tbody id="inoutboard">
+
+					</tbody>
+					</table> 
+					{{!-- <ul class="list-group" id="inoutboard"> --}}
+
+					</ul>
+				</div> <!-- End panel body -->
+			</div> <!-- End in/out panel -->
+
+			<!-- Sub-row -->
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+		              <div class="panel-heading">
+		                Workloads <span class="glyphicon glyphicon-tag ph-icon" aria-hidden="true"></span>
+		              </div>
+		              <div class="panel-body">
+		                <div class="row"><center>
+		                 <div class="col-sm-6" data-entity="admin" data-status="" style="margin-bottom:15px;">
+		                              <span class="admin">Admin</span> <button class="btn workload" id="btn-admin">...</button> 
+		                          </div>
+
+		                          <div class="col-sm-6" data-entity="dpu" data-status="light">
+		                              <span class="dpu">DPU</span> <button type="button" class="btn workload" id="btn-dpu">...</button>
+		                          </div></center>
+		                </div>
+		              </div>
+		            </div> <!-- End Workloads -->
+				</div>
+				<div class="col-md-4">
+					<div class="panel panel-default">
+		                <!-- Default panel contents -->
+		                  <div class="panel-heading" >Kitchen Duty <span class="glyphicon glyphicon-apple ph-icon" aria-hidden="true"></span></div>
+		                                <div class="panel-body">
+		                                  {{!-- <ul class="list-group" >
+						                      <li class="list-group-item list-group-item-current"> --}}
+						                      	<span id="kd">Christy Hartner </span>
+						                      	<a href="http://vrcentral/kitchen-cleanup/"> <span class="glyphicon glyphicon-th-list" id="kd-list" data-toggle="tooltip" title="See list..."></span></a>
+						                      {{!-- </li>
+						                     
+						                  </ul> --}}
+						                </div>
+		            </div> <!-- End Kitchen Panel -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+		                        <!-- Default panel contents -->
+		            <div class="panel-heading" >
+		              Call Routing <span class="glyphicon glyphicon-earphone ph-icon" aria-hidden="true"></span>
+		            </div>
+		            
+		            <div class="panel-body">
+		              <table class="table table-hover" id="datatable-call-routing"> 
+		                <thead>
+		                  <tr>
+		                    <th>Project Name</th>
+		                    <th>Primary Contact</th>
+		                    <th>Secondary Contact</th>
+		                  </tr>
+		                </thead>
+		                <tbody id="callRouting">
+		                    
+		                 </tbody>
+		              </table>
+		            </div>
+		          </div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="panel panel-default">
+		                <!-- Default panel contents -->
+		                <div class="panel-heading" >Announcements <button id="btnShowFormAnn" class="ph-icon special" ><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
+		                  <div class="panel-body">
+		                    <p>
+		                      <ul class="list-group" id="ulAnn">
+		                      </ul>
+		                    </p>
+		              </div> <!-- End panel body -->
+		            </div> <!-- End Announcements -->
+
+		            <div class="panel panel-default">
+	                  <div class="panel-heading">Postage and BRE Rates</div>
+	                  <div class="panel-body">
+	                    <div class="row">
+	                      <div class="col-sm-6 col-md-6">
+	                        <table>
+	                          <thead><th>Postage</th></thead>
+	                          <tbody>
+	                          <tr><td>1oz</td><td>$0.46</td></tr>
+	                          <tr><td>2oz</td><td>$0.67</td></tr>
+	                          <tr><td>3oz</td><td>$0.88</td></tr>
+	                          </tbody>
+	                        </table>
+	                      </div>
+	                      <div class="col-sm-6 col-md-6">
+	                        <table>
+	                          <thead><th>BREs</th></thead>
+	                          <tbody>
+	                          <tr><td>1oz</td><td>$0.556</td></tr>
+	                          <tr><td>2oz</td><td>$0.766</td></tr>
+	                          <tr><td>3oz</td><td>$0.976</td></tr>
+	                          </tbody>
+	                        </table>
+	                      </div>
+	                    </div>
+	                    
+	                  </div>
+	                </div> <!--End Postage Rate -->
+				</div>
+			</div>
+			<!--End Sub-row -->
+		</div> <!--END LEFT COLUMN -->
+
+		<div class="col-lg-4"> <!-- RIGHT COLUMN -->
+			<div class="panel panel-default"> <!-- CALENDAR -->
                 <!-- Default panel contents -->
-                  <div class="panel-heading">Calendar <button id="btnShowFormCal" class="ph-icon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button></div>
-                                <div class="panel-body">
-                                <div class="row" id="calendar">
-
-                                </div>
-                                 
-                                </div>
-                            </div>
-                  </div>
-
-
-
-            <div class="col-sm-12 col-lg-3"> <!-- Begin right column -->
-            		<div class="row">
-
-                	<div class="col-sm-12"> <!--Begin Workloads -->
-                    <div class="panel panel-default">
-                      <div class="panel-heading">Workloads</div>
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="col-sm-6" data-entity="admin" data-status="">
-                              <span class="admin">Admin</span> <button class="btn workload" id="btn-admin">...</button> 
-                          </div>
-
-                          <div class="col-sm-6" data-entity="dpu" data-status="light">
-                              <span class="dpu">DPU</span> <button type="button" class="btn workload" id="btn-dpu">...</button>
-                          </div>
-                        </div> <!-- End Sub-row -->
-                      </div>
-                    </div>
-                  </div> <!--End Workloads -->
-
-
-                  <div class="col-sm-12">
-                  <div class="panel panel-default">
-                <!-- Default panel contents -->
-                  <div class="panel-heading">Announcements <button id="btnShowFormAnn" class="ph-icon" {{!-- data-toggle="modal" data-target="#modalFormAnn" --}}><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></button></div>
-                                <div class="panel-body">
-                
-                                        <p>
-                                          <ul class="list-group" id="ulAnn">
-                      </ul>
-                    </p>
-                                </div> <!-- End panel body -->
-                            </div>
-            </div>
-              <div class="col-sm-12">
-                <div class="panel panel-default">
-                <!-- Default panel contents -->
-                  <div class="panel-heading">Kitchen Duty <span class="glyphicon glyphicon-apple ph-icon" aria-hidden="true"></span></div>
-                                <div class="panel-body">
-                                  <ul class="list-group">
-                      <li class="list-group-item list-group-item-current" id="kd">Christy Hartner </li>
-                      <li class="list-group-item"><a href="http://vrcentral/kitchen-cleanup/">See upcoming..</a></li>
-                  </ul>
-                </div>
-                    </div>
-              </div>
-              <div class="col-sm-12"> <!-- Begin Postage and BRE Rates -->
-                <div class="panel panel-default">
-                  <div class="panel-heading">Postage and BRE Rates</div>
+                <div class="panel-heading" style="margin-top:-10px;">Calendar <button id="btnShowFormCal" class="ph-icon special"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button></div>
                   <div class="panel-body">
-                    <div class="row">
-                      <div class="col-sm-6 col-md-6">
-                        <table>
-                          <thead><th>Postage</th></thead>
-                          <tbody>
-                          <tr><td>1oz</td><td>$0.46</td></tr>
-                          <tr><td>2oz</td><td>$0.67</td></tr>
-                          <tr><td>3oz</td><td>$0.88</td></tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="col-sm-6 col-md-6">
-                        <table>
-                          <thead><th>BREs</th></thead>
-                          <tbody>
-                          <tr><td>1oz</td><td>$0.556</td></tr>
-                          <tr><td>2oz</td><td>$0.766</td></tr>
-                          <tr><td>3oz</td><td>$0.976</td></tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    
+                    <div id="calendar"></div>
+
                   </div>
-                </div>
-              </div> <!-- End Postage and BRE Rates -->
+                                 
+             </div> <!--END CALENDAR -->
+		</div> <!--END RIGHT COLUMN -->
 
-                		<div class="col-sm-12">
-                		  <div class="panel panel-default">
-                		    <!-- Default panel contents -->
-                		    <div class="panel-heading">Call Routing <span class="glyphicon glyphicon-earphone ph-icon" aria-hidden="true"></span></div>
-                		    <div class="panel-body">
-                		      <table class="table table-hover" id="datatable-call-routing">
-                              
-							<thead>
-								<tr>
-                                    <th>Project Name</th>
-                                    
-                                    <th>Primary Contact</th>
-                                    
-                                    <th>Secondary Contact</th>
-                                </tr>
-						</thead>
-                            <tbody id="callRouting">
-                              	
-                             </tbody>
-                              </table>
-              		      </div>
-              		    </div>
-              		  </div>
+	</div> <!--END ALL ENCOMPASSING ROW -->
 
+<hr>
 
-        			</div> <!-- End row -->
-					
-        			
-            </div> <!-- End right column -->
-        </div> <!-- End containter row -->
-	</div> <!-- End container -->
+      
+  </div> <!-- End container -->
 
 <div id="mdls">
 <!--Anouncement Modal-->

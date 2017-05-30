@@ -113,6 +113,16 @@
 	height: 60em;
 }
 
+#kd {
+	font-size: 1.5em;
+	padding-left: 5em;
+}
+
+#kd-list {
+	float: right;
+	margin-bottom: 1em;
+	font-size: 1.5em;
+}
 
 /*_____________________________ Buttons (General) */
 
@@ -397,15 +407,23 @@ a.goto {
 
 /*********************/
 .admin, .dpu {
-	background-color:rgba(0,0,0,0.05);
-	border-top-left-radius: 15px;
-	border-bottom-left-radius: 15px;
-}
+    background-color: rgba(0,0,0,0.05);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding: 10px 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+ }
 
 .workload {
-	margin-left: 1em;
-	width: 6em;
+	margin-left: -5px;
+	width: 10em;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	/*height: 2.8em;*/
 	color: #fff;
+	transform: translateY(-1px);
+	border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .light {
