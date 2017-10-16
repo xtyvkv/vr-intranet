@@ -117,7 +117,7 @@ $('#btnSubmitFormCal').on('click', function(){
 
   } else {
     console.log(newCalEvent);
-    post('/api/calendar', "json_string=" + JSON.stringify(newCalEvent))
+    post(baseURL + 'calendar', "json_string=" + JSON.stringify(newCalEvent))
       .then(function(result){
         console.log(result);
         resetForm($('#formCal'));
@@ -295,8 +295,6 @@ function resetForm($form) {
     $form.find('input:text, input:password, input:file, select, textarea ').val('');
     $form.find('input[type=date]').val("mm/dd/yyyy");
     $form.find('input:radio, input:checkbox')
-         .removeAttr('checked')
-         .removeAttr('selected')
          .prop('checked', false);
 }
 

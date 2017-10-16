@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 var board = require('../controller/cont.js');
+var helpdesk = require('../controller/main')
 // retrieveInOut = require('../controller/cont.js');
 
 router.get('/', function(req, res) {
@@ -60,5 +61,12 @@ router.put('/workloads/:dept/:status', function(req, res){
   board.updateWorkload(req, res);
 });
 
+router.get('/ticket/:id', function(req, res){
+  helpdesk.ticketInfo(req, res);
+})
+
+router.post('/ticket/:id', function(req, res){
+  helpdesk.markComplete(req, res);
+})
 module.exports = router;
 
