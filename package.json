@@ -10,6 +10,7 @@
   "license": "BSD",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "express-fileupload": "^0.3.0",
     "express-handlebars": "^3.0.0",
     "moment": "^2.17.1",
     "moment-range": "^2.2.0",

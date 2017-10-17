@@ -1,11 +1,14 @@
 var express = require("express");
+var fileUploader = require('express-fileupload')
 var app = express();
 
+app.use(fileUploader());
 var bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false })); 
 // parse application/json 
 app.use(bodyParser.json());
+
 
 var morgan = require('morgan');
 
