@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:8180/api/'
+const baseURL = '/node/api/'
 $('input[type=text]').on('focusout', function(e){
   if ($(this).val() === '') {
     $(this).addClass('highlightRed');
@@ -9,63 +9,45 @@ $('input[type=text]').on('focusout', function(e){
 
 $('form').on('submit', function(e){
   e.preventDefault();
+  validateData()
+  .then( () => {
+    $('#bad-results').text('');
 
-  var data = new FormData(document.getElementById('ticketForm'))
+    var data = new FormData(document.getElementById('ticketForm'))
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', baseURL + 'upload', true);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', baseURL + 'newticket', true);
 
-  xhr.onload = function(event) {
-    if (xhr.status == 200) {
-      console.log("All good!")
-    } else {
-      console.log("Fail!!")
+    xhr.onload = function(event) {
+      if (xhr.status == 200) {
+        $('#good-results').text('Your ticket has been submitted!')
+        resetForm($('#ticketForm'));
+      } else {
+        console.log("Fail!!")
+      }
+      // console.log(xhr.response);
     }
-  }
-  xhr.send(data);
+    xhr.send(data);
+  })
+  .catch( () => {
+    $('#bad-results').text('Please fill out all required fields')
+  })
+
+  
 })
 
-// $('form').on('submit', function(e){
-//   e.preventDefault();
-//   var data = {};
-//   data.name = $('#inputName').val();
-//   data.subject = $('#inputSubject').val();
-//   data.priority = $('#priority').val();
-//   data.message = $('textarea').val();
+function validateData(){
+  return new Promise(function(resolve, reject){
+    var data = {};
+    data.name = $('#inputName').val();
+    data.subject = $('#inputSubject').val();
+    data.priority = $('#priority').val();
+    data.message = $('textarea').val();
 
-//   var blanks = Object.values(data).includes("");
+    var blanks = Object.values(data).includes("");
 
-//   if (!blanks) {
-//     data = JSON.stringify(data);
-//     post(baseURL + 'newticket', data)
-//     .then(function(res){
-//       console.log(res);
-//     });
-//   } else {
-//     console.log('Please fill out all the required fields');
-//   }
-
-
-// })
-
-// $('input[type=file]').on('change', function(e){
-//   var fupload = document.getElementById('myFile');
-//   var myFile = fupload.files[0];
-
-//   var oData = new FormData();
-//   oData.append('upload', myFile, myFile.name);
-
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('POST', baseURL + 'upload', true);
-//   // xhr.setRequestHeader("Content-Type", "multipart/form-data");
-//   xhr.onload = function(event){
-//     if (xhr.status == 200) {
-//       fupload.disabled = true;
-//       console.log('files successfully uploaded')
-//     } else {
-//       console.log('Error uploading files')
-//     }
-//   }
-//   xhr.send(oData);
-// })
+    (blanks == true) ? reject(): resolve();
+  })
+  
+}
 

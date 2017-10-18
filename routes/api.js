@@ -69,26 +69,8 @@ router.post('/ticket/:id', function(req, res){
 })
 
 router.post('/newticket', function(req, res){
-  res.send(req.body); 
+  helpdesk.newticket(req, res);
 })
 
-router.post('/upload', function (req, res){
-   console.log(req.headers)
-   if (!req.files){
-    return res.status(400).send('No files were uploaded.');
-   }
-   console.log(req.files);
-   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.upload;
- 
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(__dirname + '/../uploads/' + req.files.upload.name, function(err) {
-    if (err) {
-      return res.status(500).send(err);
-    }
- 
-    res.send('File uploaded!');
-  });
-})
 module.exports = router;
 
