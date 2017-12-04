@@ -2,13 +2,20 @@
   height: 1em;
   width: 1em;
   border-radius: 50%;
+  border-style: solid;
   color:rgba(0, 0, 0, 0);
+}
+
+.statusButton:active {
+  transform: scale(1.35);
 }
 
 .statusIn {
   background-color: #98BA3C;
+  border-color: #98BA3C;
 }
 
 .statusRemote {
   background-color: #1693A5;
+  border-color: #1693A5;
 }
