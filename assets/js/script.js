@@ -271,7 +271,7 @@ function printAnn(data) {
 
 function addAnnouncement() {
   var newAnn = $('#txtAnn').val().trim();
-  post(baseURL + "ann", "msg=" + newAnn)
+  post(baseURL + "ann", JSON.stringify({"msg": newAnn}))
   .then(function(res){
     console.log(res);
     return get(baseURL + "ann");
