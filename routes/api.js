@@ -72,5 +72,9 @@ router.post('/newticket', function(req, res){
   helpdesk.newticket(req, res);
 })
 
+router.get('/reset', function(req, res){
+  board.reset(req, res);
+})
+
 module.exports = router;
 

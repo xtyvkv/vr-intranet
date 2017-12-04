@@ -230,6 +230,19 @@ board.updateWorkload = function(req, res) {
 	})
 };
 
+board.reset = function(req, res) {
+	var qry = "UPDATE tblEmployee SET InOffice=0, OutOffice=1, Home=0 WHERE Active=1";
+	db.connect(config).then(function(){
+		new db.Request().query(qry).then(function(result){
+			res.send("successfully reset");
+		})
+		.catch(function(err){
+			console.log(err);
+			res.send("failed to reset");
+		})
+	});
+};
+
 //Catch DB connectivity Errors
 
 db.on('error', function(err) {
