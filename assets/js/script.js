@@ -9,7 +9,7 @@ function init() {
   //Load data
 get(baseURL + "kitchen")
   .then(function(kd){
-    $('#kd').text(kd);
+    kd.length === 0 ? $('#kd').text('Steph Curry'): $('#kd').text(kd);
     return get(baseURL + "inout");
   })
   .then(function(status){
@@ -36,30 +36,30 @@ get(baseURL + "kitchen")
   });
 }
 
-$('#inoutboard').on('click', 'span', function(){
-    var empID = $(this).parents('tr').data('empID');
-    var label = $(this).attr('class');
-    var clicked = label.substring(0, label.indexOf("-"));
-    updateStatus(empID, clicked);
+$('#inoutboard').on('click', '.statusButton', function(){
+  var self = this;
+  var empID = $(this).parents('tr').data('empID');
+  var officeStatus = $(this).parents('tr').data('officeStatus');
 
-    switch (clicked) {
-      case "in":
-        $(this).addClass('in-label-checked');
-        $(this).siblings('.out-label').removeClass('out-label-checked');
-        $(this).siblings('.remote-label').removeClass('remote-label-checked');
-        break;
-      case "out":
-        $(this).addClass('out-label-checked');
-        $(this).siblings('.in-label').removeClass('in-label-checked');
-        $(this).siblings('.remote-label').removeClass('remote-label-checked');
-        break;
-      case "remote":
-        $(this).addClass('remote-label-checked');
-        $(this).siblings('.out-label').removeClass('out-label-checked');
-        $(this).siblings('.in-label').removeClass('in-label-checked');
-        break;
-    }
-  });
+  switch (officeStatus){
+    case 'in':
+      $(self).toggleClass('statusIn');
+      $(self).toggleClass('statusRemote');
+      $(self).parents('tr').data('officeStatus', 'remote');
+      updateStatus(empID, 'remote');
+      break;
+    case 'remote':
+      $(self).toggleClass('statusRemote');
+      $(self).parents('tr').data('officeStatus', 'out');
+      updateStatus(empID, 'out');
+      break;
+    case 'out':
+      $(self).toggleClass('statusIn');
+      $(self).parents('tr').data('officeStatus', 'in');
+      updateStatus(empID, 'in');
+      break;
+  }
+})
 
 //Toggle Annoucement Modal
 $('#btnShowFormAnn').on('click', function(){
@@ -267,10 +267,6 @@ function printAnn(data) {
       });
 
     } 
-
-    // else {
-    //   contAnn.append("<li class='list-group-item'>No announcements</li>");
-    // }
 }
 
 function addAnnouncement() {
@@ -299,83 +295,6 @@ function resetForm($form) {
 }
 
 
-function get(url) {
-  return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-
-    req.onload = function() {
-      if (req.status == 200) {
-        // resolve(req.response);
-        //Attempt to convert response to a JSON object
-        try {
-          var d = JSON.parse(req.response);
-          resolve(d);
-        }
-        catch (err){
-          resolve(req.response);
-        }
-      }
-
-      else {
-        reject(Error(req.statusText));
-      }
-    };
-
-    //Handle network errors
-    req.onerror = function() {
-      reject(Error("Network error"));
-    };
-
-    //Make the request
-    req.send();
-
-  });
-}
-
-
-function post(url, data) {
-  return new Promise(function(resolve, reject){
-    var req = new XMLHttpRequest();
-    req.open("POST", url, true);
-
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    req.addEventListener("load", function(re){
-      resolve(req.response);
-    });
-
-    req.addEventListener("error", function(err){
-      reject(Error("Network error"));
-    });
-
-    req.send(data);
-  
-  });
-}
-
-function put(url, data) {
-  return new Promise(function(resolve, reject){
-    var req = new XMLHttpRequest();
-    req.open("PUT", url, true);
-
-    req.addEventListener("load", function(re){
-      resolve(req.response);
-    });
-
-    req.addEventListener("error", function(err){
-      reject(Error("Network error: \n", err));
-    });
-
-    if (data) {
-      req.send(data);
-    } else {
-      req.send();
-    }
-
-  });
-}
-
 
 function newStatus (data) {
   $('#inoutboard').empty();
@@ -388,14 +307,20 @@ function newStatus (data) {
         name.text(el.FirstName);
 
         var status = $('<td>');
+        var stsButton = $('<button>');
+        stsButton.addClass('statusButton');
+        
+        if (el.InOffice === true) {
+          stsButton.addClass('statusIn');
+          newRow.data('officeStatus', 'in');
+        } else if( el.Home === true){
+          stsButton.addClass('statusRemote');
+          newRow.data('officeStatus', 'remote');
+        } else {
+          newRow.data('officeStatus', 'out');
+        }
 
-        var stsIn = createSpan("In", el.InOffice);
-        var stsOut = createSpan("Out", el.OutOffice);
-        var stsRemote = createSpan("Remote", el.Home);
-
-        status.append(stsIn)
-            .append(stsOut)
-            .append(stsRemote);
+        status.append(stsButton);
 
         var extension = $('<td>');
         extension.text(el.Extension);
@@ -407,38 +332,6 @@ function newStatus (data) {
         $('#inoutboard').append(newRow);
     });
 }
-
-// function newStatus(data) {
-//   $('#inoutboard').empty();
-//   data.users.forEach(function(el){
-//     var newLi = $('<li>');
-
-//     newLi.data('empID', el.EmpID);
-//     var empName = $('<span>');
-//     empName.text(el.FirstName);
-
-//     var status = $('<span>');
-//     status.addClass('stsFixed')
-
-//     var stsIn = createSpan("In", el.InOffice);
-//     var stsOut = createSpan("Out", el.OutOffice);
-//     var stsRemote = createSpan("Remote", el.Home);
-
-//     status.append(stsIn)
-//           .append(stsOut)
-//           .append(stsRemote);
-
-//     newLi.append(empName)
-//          .append(status)
-//          .append(el.Extension)
-//          .addClass('list-group-item');
-
-//     $('#inoutboard').append(newLi);
-
-
-
-//   });
-// }
 
 function createSpan (stsLabel, status) {
   var htmlElmnt = $('<span>');

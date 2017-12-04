@@ -1,0 +1,14 @@
+.statusButton {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  color:rgba(0, 0, 0, 0);
+}
+
+.statusIn {
+  background-color: #98BA3C;
+}
+
+.statusRemote {
+  background-color: #1693A5;
+}

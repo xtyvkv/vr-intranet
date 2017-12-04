@@ -84,9 +84,9 @@
 }*/
 #iob-body {
 	height: 35%;
-	-webkit-column-count: 3;
-       -moz-column-count: 3;
-            column-count: 3;
+	-webkit-column-count: 2;
+       -moz-column-count: 2;
+            column-count: 2;
     padding: 1em;
 }
 

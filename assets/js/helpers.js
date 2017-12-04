@@ -45,6 +45,29 @@ function get(url) {
   });
 }
 
+function put(url, data) {
+  return new Promise(function(resolve, reject){
+    var req = new XMLHttpRequest();
+    req.open("PUT", url, true);
+
+    req.addEventListener("load", function(re){
+      resolve(req.response);
+    });
+
+    req.addEventListener("error", function(err){
+      reject(Error("Network error: \n", err));
+    });
+
+    if (data) {
+      req.send(data);
+    } else {
+      req.send();
+    }
+
+  });
+}
+
+
 function resetForm($form) {
     $form.find('input:text, input:password, input:file, select, textarea').val('');
     $form.find('input:radio, input:checkbox')
