@@ -134,15 +134,15 @@ mainctlr.getEmailAddress = function (name) {
 
 mainctlr.save = function(name, subject, message, priority, attachment){
   let qry = `INSERT INTO tblHelpdesk (name, subject, message, priority, attachment, datesubmitted) VALUES ('${name}','${subject}','${message}','${priority}','${attachment}', CURRENT_TIMESTAMP)`;
-  console.log(qry);
-  // let db = mysql.createConnection(conf);
-  // db.connect();
-  // db.query(qry, (err, results) => {
-  //   if(err) { 
-  //     throw err;
-  //   }
-  // })
-  // db.end();
+  // console.log(qry);
+  let db = mysql.createConnection(conf);
+  db.connect();
+  db.query(qry, (err, results) => {
+    if(err) { 
+      throw err;
+    }
+  })
+  db.end();
 }
 
 
