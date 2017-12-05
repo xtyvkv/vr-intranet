@@ -42,7 +42,7 @@ function validateData(){
     data.name = $('#inputName').val();
     data.subject = $('#inputSubject').val();
     data.priority = $('#priority').val();
-    data.message = $('textarea').val().replace(/[\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    data.message = $('textarea').val();
 
     var blanks = Object.values(data).includes("");
 
