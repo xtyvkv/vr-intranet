@@ -134,7 +134,7 @@ mainctlr.getEmailAddress = function (name) {
 mainctlr.save = function(name, subject, message, priority, attachment){
   let db = mysql.createConnection(conf);
   db.connect();
-  db.query(`INSERT INTO tblHelpdesk (name, subject, message, priority, attachment, datesubmitted) VALUES ("${name}","${subject}","${message}","${priority}","${attachment}", CURRENT_TIMESTAMP)`, (err, results) => {
+  db.query(`INSERT INTO tblHelpdesk (name, subject, message, priority, attachment, datesubmitted) VALUES ("${name}","${subject}","${message.replace(`"`,`\"`)}","${priority}","${attachment}", CURRENT_TIMESTAMP)`, (err, results) => {
     if(err) { 
       throw err;
     }
