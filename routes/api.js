@@ -68,6 +68,10 @@ router.post('/ticket/:id', function(req, res){
   helpdesk.markComplete(req, res);
 })
 
+router.delete('/ticket/:id', function(req, res){
+  helpdesk.delete(req, res);
+})
+
 router.post('/newticket', function(req, res){
   helpdesk.newticket(req, res);
 })

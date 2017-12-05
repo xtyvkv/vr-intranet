@@ -90,7 +90,8 @@
 				markComplete(id);
 				break;
 			case 'delete':
-				console.log('delete');
+				//console.log('delete');
+				deleteTicket(id);
 				break;
 		}
 	})
@@ -118,6 +119,16 @@
 			location.reload();
 		})
 		.catch( err => {
+			console.log(err)
+		})
+	}
+
+	function deleteTicket(id) {
+		fetch(baseURL + 'ticket/' + id, {
+			method: 'DELETE'
+		}).then( response => {
+			location.reload();
+		}).catch( err => {
 			console.log(err)
 		})
 	}

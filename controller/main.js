@@ -145,5 +145,19 @@ mainctlr.save = function(name, subject, message, priority, attachment){
   db.end();
 }
 
+mainctlr.delete = function(req, res) {
+  let qry = `DELETE FROM tblHelpdesk WHERE idTicket=${req.params.id}`;
+  let db = mysql.createConnection(conf);
+  db.connect();
+  db.query(qry, (err, results) => {
+    if(err) { 
+      throw err;
+      res.status(500).send('Failed to delete ticket. Internal Server error')
+    }
+    res.send("ticket deleted");
+  })
+  db.end();
+}
+
 
 module.exports = mainctlr;
