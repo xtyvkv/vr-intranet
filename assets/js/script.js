@@ -117,7 +117,7 @@ $('#btnSubmitFormCal').on('click', function(){
 
   } else {
     console.log(newCalEvent);
-    post(baseURL + 'calendar', "json_string=" + JSON.stringify(newCalEvent))
+    post(baseURL + 'calendar', JSON.stringify(newCalEvent))
       .then(function(result){
         console.log(result);
         resetForm($('#formCal'));

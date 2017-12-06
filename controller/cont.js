@@ -95,7 +95,7 @@ board.Calendar = function(req, res) {
 }
 
 board.addCalendarEvent = function(req, res) {
-	var newEvent = JSON.parse(req.body.json_string);
+	var newEvent = req.body;
 	
 	if(newEvent.multipleDays == false) {
 		insertCalItem(newEvent.text, newEvent.eventDate, res);
