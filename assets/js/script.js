@@ -227,7 +227,7 @@ function printCalendar(date, data) {
     newUL.addClass('list-group')
     newUL.append('<li class="list-group-item eventDay">' + date + '</li>');
 
-    data.forEach(function(el) {
+    data.sort((a,b) => a.ItemText.charCodeAt(0)-b.ItemText.charCodeAt(0)).forEach(function(el) {
       var newLI = $('<li>');
       newLI.addClass('list-group-item')
       newLI.text(el.ItemText);
