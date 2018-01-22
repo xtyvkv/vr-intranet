@@ -1,4 +1,4 @@
-const baseURL = '/node/api/'
+const baseURL1 = '/node/api/'
 $('input[type=text]').on('focusout', function(e){
   if ($(this).val() === '') {
     $(this).addClass('highlightRed');
@@ -16,7 +16,7 @@ $('form').on('submit', function(e){
     var data = new FormData(document.getElementById('ticketForm'))
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', baseURL + 'newticket', true);
+    xhr.open('POST', baseURL1 + 'newticket', true);
 
     xhr.onload = function(event) {
       if (xhr.status == 200) {
