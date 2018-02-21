@@ -22,7 +22,7 @@ $('form').on('submit', function(e){
       if (xhr.status == 200) {
         $('#good-results').text('Your ticket has been submitted!')
         resetForm($('#ticketForm'));
-        setTimeout(window.location.reload(), 2500);
+        setTimeout(window.location.reload(), 4000);
       } else {
         console.log("Fail!!")
       }
