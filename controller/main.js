@@ -98,7 +98,7 @@ mainctlr.newticket = function(req, res) {
     const params = sendEmail.message(email, emailSub, emailMsg);
     sendEmail.send(params);
 
-    const paramsII = sendEmail.message('ereyes@vitalresearch.com', emailSub, emailMsg);
+    const paramsII = sendEmail.message('ereyes@vitalresearch.com', emailSub, emailMsg, email);
     sendEmail.send(paramsII);
 
   })

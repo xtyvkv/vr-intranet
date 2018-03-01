@@ -6,7 +6,7 @@ var ses = new AWS.SES(config);
 
 var s = {};
 
-s.message = function(recipient, subject, msg) {
+s.message = function(recipient, subject, msg, replyto) {
   return {
     Destination: {
    ToAddresses: [recipient]
@@ -28,7 +28,7 @@ s.message = function(recipient, subject, msg) {
    }
   },
   ReplyToAddresses: [
-    "app@vitalresearch.com"
+    replyto || "app@vitalresearch.com"
   ],
   ReturnPath: "app@vitalresearch.com",
   Source: "app@vitalresearch.com",
@@ -38,7 +38,6 @@ s.message = function(recipient, subject, msg) {
 s.send = function(params){
    ses.sendEmail(params, function(err, data) {
      if (err) console.log(err, err.stack); // an error occurred
-     else     console.log(data);           // successful response
    });
 }
 
