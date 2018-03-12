@@ -59,8 +59,9 @@ mainctlr.newticket = function(req, res) {
     "3": "EMGCY"
   }
 
-  var {name, subject, priority} = req.body;
-  var message = req.body.message.replace("'", "''");
+  var {name, priority} = req.body;
+  var subject = req.body.subject.replace("'", "\\'");
+  var message = req.body.message.replace("'", "\\'");
   priority = pLevels[priority];
   
   var emailMsg = message;
@@ -134,7 +135,7 @@ mainctlr.getEmailAddress = function (name) {
 
 mainctlr.save = function(name, subject, message, priority, attachment){
   let qry = `INSERT INTO tblHelpdesk (name, subject, message, priority, attachment, datesubmitted) VALUES ('${name}','${subject}','${message}','${priority}','${attachment}', CURRENT_TIMESTAMP)`;
-  // console.log(qry);
+  console.log(qry);
   let db = mysql.createConnection(conf);
   db.connect();
   db.query(qry, (err, results) => {
