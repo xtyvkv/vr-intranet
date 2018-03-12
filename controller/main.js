@@ -64,7 +64,7 @@ mainctlr.newticket = function(req, res) {
   var message = req.body.message.replace("'", "\\'");
   priority = pLevels[priority];
   
-  var emailMsg = message;
+  var emailMsg = req.body.message;
 
   if (req.files.attachment) {
     var fname = req.files.attachment.name;
@@ -79,7 +79,6 @@ mainctlr.newticket = function(req, res) {
       res.send('New ticket received and file attachment uploaded!');
     });
   } else {
-    var emailMsg = message;
     res.send("New ticket received! " + JSON.stringify({name, subject, priority}))
   }
 
@@ -91,7 +90,7 @@ mainctlr.newticket = function(req, res) {
       fname || ""
     )
 
-  const emailSub = `${name} - ${subject} ${priority}`;
+  const emailSub = `${name} - ${req.body.subject} ${priority}`;
   
   this.getEmailAddress(name)
   .then(function(email){
