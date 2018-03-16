@@ -36,30 +36,32 @@ get(baseURL + "kitchen")
   });
 }
 
-$('#inoutboard').on('click', '.statusButton', function(){
-  var self = this;
-  var empID = $(this).parents('tr').data('empID');
-  var officeStatus = $(this).parents('tr').data('officeStatus');
+document.addEventListener('click', function(event){
+  if(event.target.firstChild.classList.contains('statusButton')) {
+    var self = event.target.firstChild;
+    var empID = $(self).parents('tr').data('empID');
+    var officeStatus = $(self).parents('tr').data('officeStatus');
 
-  switch (officeStatus){
-    case 'in':
-      $(self).toggleClass('statusIn');
-      $(self).toggleClass('statusRemote');
-      $(self).parents('tr').data('officeStatus', 'remote');
-      updateStatus(empID, 'remote');
-      break;
-    case 'remote':
-      $(self).toggleClass('statusRemote');
-      $(self).parents('tr').data('officeStatus', 'out');
-      updateStatus(empID, 'out');
-      break;
-    case 'out':
-      $(self).toggleClass('statusIn');
-      $(self).parents('tr').data('officeStatus', 'in');
-      updateStatus(empID, 'in');
-      break;
+    switch (officeStatus){
+      case 'in':
+        $(self).toggleClass('statusIn');
+        $(self).toggleClass('statusRemote');
+        $(self).parents('tr').data('officeStatus', 'remote');
+        updateStatus(empID, 'remote');
+        break;
+      case 'remote':
+        $(self).toggleClass('statusRemote');
+        $(self).parents('tr').data('officeStatus', 'out');
+        updateStatus(empID, 'out');
+        break;
+      case 'out':
+        $(self).toggleClass('statusIn');
+        $(self).parents('tr').data('officeStatus', 'in');
+        updateStatus(empID, 'in');
+        break;
+    }
   }
-})
+}, false);
 
 //Toggle Annoucement Modal
 $('#btnShowFormAnn').on('click', function(){
@@ -307,7 +309,7 @@ function newStatus (data) {
         name.text(el.FirstName);
 
         var status = $('<td>');
-        var stsButton = $('<button>');
+        var stsButton = $('<div>');
         stsButton.addClass('statusButton');
         
         if (el.InOffice === true) {
