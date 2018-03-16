@@ -37,8 +37,10 @@ get(baseURL + "kitchen")
 }
 
 document.addEventListener('click', function(event){
-  if(event.target.firstChild.classList.contains('statusButton')) {
-    var self = event.target.firstChild;
+  var elmnt = $(event.target);
+  var c = elmnt.attr('class');
+  if(c.includes('statusButton')) {
+    var self = elmnt;
     var empID = $(self).parents('tr').data('empID');
     var officeStatus = $(self).parents('tr').data('officeStatus');
 
