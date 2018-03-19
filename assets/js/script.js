@@ -37,7 +37,13 @@ get(baseURL + "kitchen")
 }
 
 document.addEventListener('click', function(event){
-  var elmnt = $(event.target);
+  var elmnt;
+  var tagType = event.target.nodeName; 
+  if (tagType === 'TD'){
+    elmnt = $(event.target).children('div');
+  } else if (tagType ==='DIV') {
+    elmnt = $(event.target);
+  }
   var c = elmnt.attr('class');
   if(c.includes('statusButton')) {
     var self = elmnt;
