@@ -211,6 +211,7 @@ board.workloads = function(req, res){
 		})
 		.catch(function(err){
 			console.log(err);
+			res.status(500);
 			res.send("unable to get workloads");
 		});
 	});

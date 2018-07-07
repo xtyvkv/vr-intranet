@@ -44,6 +44,10 @@ app.get('/nl', function(req, res) {
 	res.render('newlayout')
 });
 
+app.get('/empnums', function(req, res){
+	res.render('empnums');
+});
+
 app.get('/tickets', function(req, res){
 	controller.allTickets(req, res);
 })
