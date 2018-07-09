@@ -4,6 +4,7 @@ var router = express.Router();
 var board = require('../controller/cont.js');
 var helpdesk = require('../controller/main')
 // retrieveInOut = require('../controller/cont.js');
+var experts = require('../controller/experts');
 
 router.get('/', function(req, res) {
         res.send("Hello World");
@@ -79,6 +80,14 @@ router.post('/newticket', function(req, res){
 router.get('/reset', function(req, res){
   board.reset(req, res);
 })
+
+router.get('/experts', function(req, res){
+  experts.retrieve(req, res);
+});
+
+router.post('/experts', function(req, res){
+  experts.add(req, res);
+});
 
 module.exports = router;
 

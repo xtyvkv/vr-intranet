@@ -28,27 +28,26 @@ var api = require('./routes/api.js');
 var controller = require('./controller/main')
 
 app.get('/', function(req, res) {
-	res.render("index");
+	res.render('index');
 });
 
 app.get('/cal', function(req, res) {
-	res.render("calendar");
+	res.render('calendar');
 });
 
 app.use('/assets', express.static('assets'));
 
 app.use('/api', api);
 
-app.get('/nl', function(req, res) {
-	// res.send('hello')
-	res.render('newlayout')
-});
-
 app.get('/tickets', function(req, res){
 	controller.allTickets(req, res);
-})
+});
+
+app.get('/experts', function(req, res){
+	res.render('experts');
+});
 
 
 app.listen(8180, function () {
-	console.log("App running on port 8180");
+	console.log('App running on port 8180');
 } );
