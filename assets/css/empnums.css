@@ -1,0 +1,13 @@
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1em;
+}
+
+.sides {
+    width: 25%;
+}
+
+.center {
+    width: 50%;
+}
