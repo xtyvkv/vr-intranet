@@ -1,10 +1,9 @@
 $(document).ready( function () {
-    // $('#contact-info-table').DataTable();
     init();
 } );
 
 function init(){
-    fetch('http://localhost:8180/api/empnums')
+    fetch(`http://${baseURL}empnums`)
     .then(res => res.json())
     .then(data => {
         data.forEach(el =>{
