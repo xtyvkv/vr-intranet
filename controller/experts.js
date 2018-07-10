@@ -2,7 +2,7 @@ var db = require('mssql');
 var config = require('../config/config.js');
 
 //Catch DB connectivity Errors
-
+ 
 db.on('error', function(err) {
 	if(err) {
 		console.log(err);
@@ -35,6 +35,18 @@ experts.add = function(req, res){
           res.status(500);
           res.send('Database error');
       });
+};
+
+experts.delete = function(req, res){
+  db.connect(config)
+  .then(function(){
+    let q = `DELETE FROM tblExperts WHERE id=${req.params.id}`
+    return new db.Request().query(q);
+  }).then(function(result){
+    res.send('Deleted '+  req.params.id);
+  }).catch(function(err){
+      res.status(500).send('Database error');
+  });
 };
 
 

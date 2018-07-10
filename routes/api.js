@@ -9,7 +9,7 @@ var experts = require('../controller/experts');
 router.get('/', function(req, res) {
         res.send("Hello World");
 });
-
+ 
 router.get('/inout', function (req, res) {
         board.retrieveInOut(req, res);
 });
@@ -87,6 +87,10 @@ router.get('/experts', function(req, res){
 
 router.post('/experts', function(req, res){
   experts.add(req, res);
+});
+
+router.delete('/experts/:id', function(req, res){
+  experts.delete(req, res);
 });
 
 module.exports = router;
