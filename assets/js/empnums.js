@@ -3,7 +3,7 @@ $(document).ready( function () {
 } );
 
 function init(){
-    fetch(`http://${baseURL}empnums`)
+    fetch(`/api/empnums`)
     .then(res => res.json())
     .then(data => {
         data.forEach(el =>{
