@@ -39,6 +39,10 @@ app.use('/assets', express.static('assets'));
 
 app.use('/api', api);
 
+app.get('/empnums', function(req, res){
+	res.render('empnums');
+});
+
 app.get('/tickets', function(req, res){
 	controller.allTickets(req, res);
 });

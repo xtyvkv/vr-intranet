@@ -4,7 +4,11 @@ var router = express.Router();
 var board = require('../controller/cont.js');
 var helpdesk = require('../controller/main')
 // retrieveInOut = require('../controller/cont.js');
+<<<<<<< HEAD
 var experts = require('../controller/experts');
+=======
+var general = require('../controller/general');
+>>>>>>> master
 
 router.get('/', function(req, res) {
         res.send("Hello World");
@@ -93,5 +97,8 @@ router.delete('/experts/:id', function(req, res){
   experts.delete(req, res);
 });
 
-module.exports = router;
+router.get('/empnums', function(req,res){
+  general.empnums(req, res);
+});
 
+module.exports = router;
