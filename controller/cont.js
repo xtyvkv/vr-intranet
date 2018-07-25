@@ -61,14 +61,13 @@ board.updateStatus = function(req, res, empID, newStatus) {
 
 
 board.kitchenDuty = function(req, res) {
-	var thisMonday = moment().startOf('week');
-	// console.log(thisMonday);
+	var thisMonday = moment().day(1).format('YYYY-MM-DD');
 	db.connect(config).then(function(){
-		var qry = "SELECT TOP 1 tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee on tblCleanup.EmpID=tblEmployee.EmpID WHERE tblCleanup.CleanDate <= GETDATE() ORDER BY CleanDate DESC";
+		var qry = `SELECT tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee on tblCleanup.EmpID=tblEmployee.EmpID WHERE tblCleanup.CleanDate='${thisMonday}'`;
 
 		new db.Request().query(qry).then(function(result){
 			// console.log(result);
-			result.length > 0 ? res.send(result[0].Name) : res.send("No One");
+			result.length > 0 ? res.send(result[0].Name) : res.send("Everyone");
 		})
 		.catch(function(err){
 			console.log(err);
