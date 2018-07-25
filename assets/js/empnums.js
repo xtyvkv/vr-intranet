@@ -3,7 +3,7 @@ $(document).ready( function () {
 } );
 
 function init(){
-    fetch(`/api/empnums`)
+    fetch(`http://vrcentral:8180/api/empnums`)
     .then(res => res.json())
     .then(data => {
         data.forEach(el =>{
