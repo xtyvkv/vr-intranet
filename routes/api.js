@@ -4,6 +4,7 @@ var router = express.Router();
 var board = require('../controller/cont.js');
 var helpdesk = require('../controller/main')
 // retrieveInOut = require('../controller/cont.js');
+var communityevents = require('../controller/communityevents');
 
 var experts = require('../controller/experts');
 var general = require('../controller/general');
@@ -106,6 +107,10 @@ router.get('/empnums', function(req,res){
 
 router.get('/emergencycontacts', function(req,res){
   general.emergency(req, res);
+});
+
+router.get('/hashtags', function(req,res) {
+  communityevents.getHastags(req, res);
 });
 
 module.exports = router;
