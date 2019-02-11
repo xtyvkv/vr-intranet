@@ -43,6 +43,10 @@ app.get('/empnums', function(req, res){
 	res.render('empnums');
 });
 
+app.get('/ec', function(req, res){
+	res.render('emergencycontacts');
+})
+
 app.get('/tickets', function(req, res){
 	controller.allTickets(req, res);
 });

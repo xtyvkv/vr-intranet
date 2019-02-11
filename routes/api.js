@@ -104,4 +104,8 @@ router.get('/empnums', function(req,res){
   general.empnums(req, res);
 });
 
+router.get('/emergencycontacts', function(req,res){
+  general.emergency(req, res);
+});
+
 module.exports = router;
