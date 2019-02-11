@@ -51,6 +51,10 @@ app.get('/experts', function(req, res){
 	res.render('experts');
 });
 
+app.get('/kdall', function(req, res) {
+	res.render('kd');
+});
+
 
 app.listen(8180, function () {
 	console.log('App running on port 8180');

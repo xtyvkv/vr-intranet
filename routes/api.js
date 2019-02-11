@@ -28,6 +28,10 @@ router.get ('/kitchen', function(req, res) {
   board.kitchenDuty(req, res);
 });
 
+router.get('/kdall', function(req, res) {
+  board.kdall(req, res);
+});
+
 router.get('/calendar', function(req, res) {
   board.Calendar(req, res);
 });

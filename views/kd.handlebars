@@ -1,0 +1,36 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody id="kdtable">
+
+    </tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+<script>
+    var t = $('#kdtable');
+    fetch('/api/kdall')
+    .then( res=> res.json())
+    .then( data => {
+        data.forEach( e => {
+            let row = $('<tr>');
+            let name = $('<td>');
+            name.text(e['Name'] || 'Everyone');
+
+            let date = $('<td>')
+            let fd = moment(e['CleanDate']).format('MMMM Do YYYY');
+            date.text(fd);
+
+            row.append(name)
+                .append(date);
+
+            t.append(row);
+
+        })
+    })
+</script>

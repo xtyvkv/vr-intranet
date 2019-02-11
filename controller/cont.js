@@ -76,6 +76,19 @@ board.kitchenDuty = function(req, res) {
 	});
 }
 
+board.kdall = function (req, res) {
+	var thisMonday = moment().day(1).format('YYYY-MM-DD');
+	db.connect(config).then(function(){
+		var qry = `SELECT tblEmployee.FirstName as Name, tblCleanup.CleanDate FROM tblCleanup LEFT JOIN tblEmployee ON tblCleanup.EmpID=tblEmployee.EmpID ORDER BY tblCleanup.CleanDate ASC`;
+		return new db.Request().query(qry)
+	}).then(function(results){
+		res.send(results);
+	}).catch(function(err){
+		console.log(err);
+		res.send("Request to ", req.url, " failed");
+	});
+};
+
 board.Calendar = function(req, res) {
 	var thisMonday = moment().startOf('week');
 	// console.log(thisMonday);
