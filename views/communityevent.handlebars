@@ -96,16 +96,26 @@
                 <h4 class="modal-title" id="mi-title"> </h4>
             </div>
             <div class="modal-body">
-                <li>
-                    <ul>Date</ul>
-                    <ul id="mi-date"></ul>
-                    <ul>Location</ul>
-                    <ul id="mi-location"></ul>
-                    <ul>Details</ul>
-                    <ul id="mi-details"></ul>
-                    <ul>Hashtags</ul>
-                    <ul id="mi-hashtags"></ul>
-                </li>
+                <style>
+                    #mi-list {
+                        list-style: none;
+                    }
+                    
+                    .mi-heading {
+                        font-weight: bolder;
+                        margin-top: 1em;
+                    }
+                </style>
+                <ul id="mi-list">
+                    <li class="mi-heading">Date</li>
+                    <li id="mi-date"></li>
+                    <li class="mi-heading">Location</li>
+                    <li id="mi-location"></li>
+                    <li class="mi-heading">Details</li>
+                    <li id="mi-details"></li>
+                    <li class="mi-heading">Hashtags</li>
+                    <li id="mi-hashtags"></li>
+                </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

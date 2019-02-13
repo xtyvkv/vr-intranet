@@ -50,6 +50,8 @@ function printEvents(data) {
     let events_table = $('#events-table');
     data.forEach(e => {
         let row = $('<tr>');
+        row.attr('id', e['eventId']);
+        row.attr('data', JSON.stringify(e));
 
         //name
         let name = $('<td>');
@@ -101,6 +103,20 @@ function printEvents(data) {
 function getEventDetails(eventId, notes) {
     fetch('/api/eventhashtags/' + eventId)
         .then(res => res.json())
-        .then( data => console.log(data))
+        .then( ht => {
+            fillInDetails(eventId, notes, ht);
+        })
         .catch( err => console.log(err));
+}
+
+function fillInDetails(eventId, notes, ht) {
+    let data = JSON.parse($(`#${eventId}`).attr('data'));
+    
+    $('#mi-title').text(data['event_name']);
+    $('#mi-date').text(data['date']);
+    $('#mi-location').text(data['location']);
+    $('#mi-details').text(data['notes']);
+    $('#mi-hashtags').text(ht.join(', '));
+
+    $('#modal-more-info').modal('show');
 }
