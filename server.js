@@ -59,6 +59,9 @@ app.get('/kdall', function(req, res) {
 	res.render('kd');
 });
 
+app.get('/ce', function(req, res) {
+	res.render('communityevent');
+});
 
 app.listen(8180, function () {
 	console.log('App running on port 8180');
