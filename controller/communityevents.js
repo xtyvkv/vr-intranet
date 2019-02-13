@@ -61,7 +61,7 @@ communityevents.eventhashtags = function(req, res) {
         })
         .then(function(data) {
             let hashtags = [];
-            data.forEach(e => hashtags.push(e['name']))
+            data.forEach(e => hashtags.push(e['name'].trim()))
             res.send(hashtags);
         })
         .catch(function(err){
@@ -70,6 +70,11 @@ communityevents.eventhashtags = function(req, res) {
             res.send('Server Error: Unable to get event hashtags');
         });
 
+}
+
+communityevents.create = function(req, res) {
+    console.log(req.body);
+    res.send(req.body);
 }
 
 module.exports = communityevents;

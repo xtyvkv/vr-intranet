@@ -5,6 +5,9 @@ $(document).ready(function () {
 
     $('#submit').on('click', function (e) {
         $('#modal-add-event-form').modal('hide');
+        //validate
+        //submit
+        //confirm submission
         resetForm($('#event-form'));
     });
 
@@ -65,7 +68,7 @@ function printEvents(data) {
 
         //date
         let date = $('<td>');
-        let d = e['date'];
+        let d = moment(e['date']).format('MMMM Do, YYYY');
         date.text(d);
 
         //location
@@ -79,7 +82,7 @@ function printEvents(data) {
         photos.addClass('btn btn-default btn-sm photos');
         photos.attr('data',e['eventId']);
         photos.html(`<i class="fas fa-camera" aria-hidden="true"></i>`);
-        actions.append(photos);
+        // actions.append(photos);
 
         let info = $('<button>');
         info.addClass('btn btn-default btn-sm info');
@@ -109,14 +112,13 @@ function getEventDetails(eventId, notes) {
         .catch( err => console.log(err));
 }
 
-function fillInDetails(eventId, notes, ht) {
+function fillInDetails(eventId, ht) {
     let data = JSON.parse($(`#${eventId}`).attr('data'));
     
     $('#mi-title').text(data['event_name']);
-    $('#mi-date').text(data['date']);
+    $('#mi-date').text( moment(data['date']).format('MMMM Do, YYYY') );
     $('#mi-location').text(data['location']);
     $('#mi-details').text(data['notes']);
     $('#mi-hashtags').text(ht.join(', '));
-
     $('#modal-more-info').modal('show');
 }
