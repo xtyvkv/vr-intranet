@@ -3,11 +3,20 @@ $(document).ready(function () {
         $('#modal-add-event-form').modal('show');
     });
 
+    $('form').on('focusout', 'input', function(event){
+        if ( !$(this).val().length ) {
+            $(this).parent().addClass('has-error');
+        } else {
+            $(this).parent().removeClass('has-error');
+        }
+    });
+
     $('#submit').on('click', function (e) {
-        $('#modal-add-event-form').modal('hide');
+        let fields = ['name', 'event-name', 'date'];
         //validate
         //submit
         //confirm submission
+        $('#modal-add-event-form').modal('hide');
         resetForm($('#event-form'));
     });
 
@@ -104,10 +113,10 @@ function printEvents(data) {
 }
 
 function getEventDetails(eventId, notes) {
-    fetch('/api/eventhashtags/' + eventId)
-        .then(res => res.json())
+    get('/api/eventhashtags/' + eventId)
         .then( ht => {
-            fillInDetails(eventId, notes, ht);
+            let h = ht.join(', ')
+            fillInDetails(eventId, h);
         })
         .catch( err => console.log(err));
 }
@@ -119,6 +128,6 @@ function fillInDetails(eventId, ht) {
     $('#mi-date').text( moment(data['date']).format('MMMM Do, YYYY') );
     $('#mi-location').text(data['location']);
     $('#mi-details').text(data['notes']);
-    $('#mi-hashtags').text(ht.join(', '));
+    $('#mi-hashtags').text(ht);
     $('#modal-more-info').modal('show');
 }

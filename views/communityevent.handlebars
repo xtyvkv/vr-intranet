@@ -47,24 +47,24 @@
 
                 <form id="event-form">
                     <div class="form-group">
-                        <label for="name">Name</label>
+                        <label class="control-label" for="name">Name</label>
                         <input type="text" class="form-control" id="name" aria-describedby="nameHelp" />
                         <small id="nameHelp" class="form-text text-muted">Your first name only</small>
                     </div>
                     <div class="form-group">
-                        <label for="event-name"> Event Name</label>
+                        <label class="control-label" for="event-name"> Event Name</label>
                         <input type="text" class="form-control" id="event-name" aria-describedby="EventNameHelp"
                             placeholder="" />
                         <small id="EventNameHelp" class="form-text text-muted">e.g. CalPACE Conference</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label class="control-label" for="date">Date</label>
                         <input type="date" class="form-control" id="date" />
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Location</label>
+                        <label class="control-label" for="location">Location</label>
                         <input type="text" class="form-control" id="event-location" />
                     </div>
 
@@ -72,7 +72,7 @@
                         <label for="notes">Additional Details <em>(e.g. speakers, participants, type of events, etc.)</em></label>
                         <textarea class="form-control" id="notes" rows=3></textarea>
                     </div>
-
+                    {{!-- hashtag checkboxes are dynamically added to the end of this form --}}
 
                 </form>
 
