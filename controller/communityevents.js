@@ -73,8 +73,44 @@ communityevents.eventhashtags = function(req, res) {
 }
 
 communityevents.create = function(req, res) {
-    console.log(req.body);
-    res.send(req.body);
+
+    db.connect(config)
+        .then(function(result){
+            let lookup = `
+                SELECT EmpID FROM tblEmployee WHERE FirstName LIKE '${req.body.name}'
+            `;
+            return new db.Request().query(lookup)
+        })
+        .then(function(data){
+            let empId = data[0]["EmpID"];
+            let q = `
+            INSERT INTO tblCommunityEvents (
+                event_name
+                ,empId
+                ,date
+                ,location
+                ,notes
+            )
+            VALUES (
+                '${req.body["event-name"]}'
+                ,'${empId}'
+                ,'${req.body["date"]}'
+                ,'${req.body["event-location"]}'
+                ,'${req.body["notes"] || ''}'
+            )
+            `;
+            
+            return new db.Request().query(q)
+        })
+        .then(function(result){
+            console.log(result);
+            res.send(req.body);
+        })
+        .catch(function(err){
+            console.log('Error: communityevents.js, create event: ',err);
+            res.status(500);
+            res.send('Server Error: Unable to create event');
+        });
 }
 
 module.exports = communityevents;

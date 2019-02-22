@@ -13,6 +13,10 @@ $(document).ready(function () {
 
     $('#submit').on('click', function (e) {
         let fields = ['name', 'event-name', 'date'];
+        collectData()
+        .then( data => post( '/api/ce', JSON.stringify(data)) )
+        .then( res => console.log(res))
+        .catch( err => console.log(err));
         //validate
         //submit
         //confirm submission
@@ -44,7 +48,7 @@ function init() {
         .then(data => {
             data.forEach(e => {
                 let id = e['hashtag_id'];
-                let name = e['hashtag_name'];
+                let name = e['hashtag_name'].trim();
                 let checkboxTemplate = `
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="${name}" value="${id}">
@@ -131,3 +135,34 @@ function fillInDetails(eventId, ht) {
     $('#mi-hashtags').text(ht);
     $('#modal-more-info').modal('show');
 }
+
+function collectData() {
+    return new Promise(function(resolve,reject) {
+        try {
+                console.log('collect data')
+                let data = {};
+                data.hashtags = [];
+                let fields = $('#event-form').find('input');
+
+                fields.each(function(i, e){
+                    let field = $(e);
+                    let key = field.attr('id');
+                    let val;
+
+                    //Handle Checkboxes
+                    if (field.attr('type') === 'checkbox') {
+                        if ( field.is(':checked') ) { data.hashtags.push( field.val() )}
+                    } else {
+                        val = field.val();
+                        data[key] = val;
+                    }
+                    
+                })
+                resolve(data);
+        } catch (error) {
+            reject("Unable to collect the data from the form");
+        }
+    }
+);
+}
+

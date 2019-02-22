@@ -121,7 +121,7 @@ router.get('/eventhashtags/:eventId', function(req, res){
   communityevents.eventhashtags(req, res);
 });
 
-router.post('/create', function(req, res){
+router.post('/ce', function(req, res){
   communityevents.create(req, res);
 });
 
