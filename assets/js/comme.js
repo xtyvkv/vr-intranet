@@ -15,13 +15,16 @@ $(document).ready(function () {
         let fields = ['name', 'event-name', 'date'];
         collectData()
         .then( data => post( '/api/ce', JSON.stringify(data)) )
-        .then( res => console.log(res))
+        .then( res => {
+            console.log(res);
+            window.location.reload(true);
+        })
         .catch( err => console.log(err));
         //validate
         //submit
         //confirm submission
-        $('#modal-add-event-form').modal('hide');
-        resetForm($('#event-form'));
+        //$('#modal-add-event-form').modal('hide');
+        //resetForm($('#event-form'));
     });
 
     $('#ce-panel').on('click', '.info', function(e){
